@@ -83,13 +83,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\arch\win32\graphics_win32.c" />
-    <ClCompile Include="source\common.c" />
-    <ClCompile Include="source\debug.c" />
+    <ClCompile Include="source\base\common.c" />
+    <ClCompile Include="source\base\debug.c" />
     <ClCompile Include="source\ral-viz.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\common.h" />
-    <ClInclude Include="source\debug.h" />
+    <ClInclude Include="source\base\common.h" />
+    <ClInclude Include="source\base\debug.h" />
     <ClInclude Include="source\graphics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

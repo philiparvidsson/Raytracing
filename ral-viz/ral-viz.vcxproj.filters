@@ -21,10 +21,10 @@
     <ClCompile Include="source\arch\win32\graphics_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\common.c">
+    <ClCompile Include="source\base\common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\debug.c">
+    <ClCompile Include="source\base\debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClInclude Include="source\graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\common.h">
+    <ClInclude Include="source\base\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\debug.h">
+    <ClInclude Include="source\base\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

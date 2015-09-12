@@ -14,8 +14,9 @@
  * INCLUDES
  *----------------------------------------------*/
 
-#include "common.h"
 #include "debug.h"
+
+#include "base/common.h"
 
 #include <stdarg.h>
 #include <stdio.h>

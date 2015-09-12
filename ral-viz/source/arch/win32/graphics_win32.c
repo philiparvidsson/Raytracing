@@ -15,9 +15,10 @@
  * INCLUDES
  *----------------------------------------------*/
 
-#include "common.h"
-#include "debug.h"
 #include "graphics.h"
+
+#include "base/common.h"
+#include "base/debug.h"
 
 #include <windows.h>
 
@@ -140,8 +141,12 @@ static void registerWindowClass(void) {
  * Function: registerWindowClass()
  *------------------------------------*/
 static void unregisterWindowClass(void) {
-    if (!UnregisterClassW(ClassName, GetModuleHandleW(NULL)))
+    wchar_t* class_name = wstrdup(ClassName);
+
+    if (!UnregisterClassW(class_name, GetModuleHandleW(NULL)))
         warn("could not unregister window class");
+
+    free(class_name);
 }
 
 static void createWindow(const string* title, int width, int height) {

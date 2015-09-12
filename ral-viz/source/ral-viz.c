@@ -13,7 +13,7 @@
  * INCLUDES
  *----------------------------------------------*/
 
-#include "common.h"
+#include "base/common.h"
 #include "graphics.h"
 
 #include <stdio.h>
