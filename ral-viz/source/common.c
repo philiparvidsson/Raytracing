@@ -3,7 +3,7 @@
  * Created: September 12, 2015
  * Last changed: September 12, 2015
  *
- * Author(s): Philip Arvidsson (philip@philiparvidsson.com)
+ * Author(s): Philip Arvidsson (contact@philiparvidsson.com)
  *
  * Description:
  *   Common includes, macros, functions etc.
@@ -16,6 +16,7 @@
 #include "common.h"
 
 #include <stdlib.h>
+#include <wchar.h>
 
 /*------------------------------------------------
  * FUNCTIONS
@@ -23,18 +24,6 @@
 
 /*--------------------------------------
  * Function: wstrdup(str)
- *
- * Parameters:
- *   str  String to create a wide duplicate of.
- *
- * Description:
- *   Creates a multi-byte string duplicate of the specified string. Don't forget
- *   to call free() on the returned string when you are done with it!
- *
- * Usage:
- *   wchar_t* wstr = wstrdup(str);
- *   ...
- *   free(wstr);
  *------------------------------------*/
 wchar_t* wstrdup(const string* str) {
     size_t   len  = mbstowcs(NULL, str, 0)+1;

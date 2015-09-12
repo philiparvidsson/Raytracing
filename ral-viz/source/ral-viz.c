@@ -3,7 +3,7 @@
  * Created: September 12, 2015
  * Last changed: September 12, 2015
  *
- * Author(s): Philip Arvidsson (philip@philiparvidsson.com)
+ * Author(s): Philip Arvidsson (contact@philiparvidsson.com)
  *
  * Description:
  *   Main program file. Contains the main method etc.
@@ -51,7 +51,7 @@ static void printIntroMessage(void) {
 int main(int argc, char* argv[]) {
     printIntroMessage();
 
-    initGraphics(1280, 720);
+    initGraphics("ral-viz pre-alpha", 1280, 720);
 
     while (windowIsOpen()) {
         updateDisplay();

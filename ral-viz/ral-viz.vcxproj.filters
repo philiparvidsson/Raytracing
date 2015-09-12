@@ -24,12 +24,18 @@
     <ClCompile Include="source\common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
