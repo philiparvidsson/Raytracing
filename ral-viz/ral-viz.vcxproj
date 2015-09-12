@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\arch\win32\graphics_win32.c" />
+    <ClCompile Include="source\common.c" />
     <ClCompile Include="source\ral-viz.c" />
   </ItemGroup>
   <ItemGroup>
