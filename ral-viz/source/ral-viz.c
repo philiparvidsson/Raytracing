@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
         updateDisplay();
     }
 
+    freePixmap(pixmap);
     exitGraphics();
 
     printf("Bye!\n");

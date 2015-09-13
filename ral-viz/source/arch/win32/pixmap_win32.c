@@ -60,7 +60,7 @@ pixmapT* createPixmap(int width, int height) {
 
     pixmap->width  = width;
     pixmap->height = height;
-    pixmap->hdc    = CreateCompatibleDC(getWindowDC());
+    pixmap->hdc    = CreateCompatibleDC(getWindowPtr()->hdc);
     pixmap->hbmp   = CreateDIBSection(pixmap->hdc, &bmi, DIB_RGB_COLORS, &pixmap->pixels, NULL, 0);
 
     assert(pixmap->hdc  != NULL);
@@ -111,7 +111,7 @@ void setPixel(pixmapT* pixmap, int x, int y, uint8_t r, uint8_t g, uint8_t b) {
  * Function: blitPixmap(pixmap, x, y)
  *------------------------------------*/
 void blitPixmap(const pixmapT* pixmap, int x, int y) {
-    if (!BitBlt(getWindowDC(), x, y, pixmap->width, pixmap->height, pixmap->hdc, 0, 0, SRCCOPY))
+    if (!BitBlt(getWindowPtr()->hdc, x, y, pixmap->width, pixmap->height, pixmap->hdc, 0, 0, SRCCOPY))
         warn("BitBlt failed");
 }
 

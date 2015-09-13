@@ -18,6 +18,7 @@
 #include "graphics.h"
 
 #include "arch/win32/utils_win32.h"
+#include "arch/win32/win32_private.h"
 #include "base/common.h"
 #include "base/debug.h"
 #include "graphics/pixmap.h"
@@ -51,26 +52,6 @@
  *   Extended window styles.
  *------------------------------------*/
 #define WindowStyleEx (WS_EX_LEFT)
-
-/*------------------------------------------------
- * TYPES
- *----------------------------------------------*/
-
-/*--------------------------------------
- * Type: windowT
- *
- * Description:
- *   Represents a window.
- *------------------------------------*/
-typedef struct windowT {
-    int width,  // Window width, in pixels.
-        height; // Window height, in pixels.
-
-    // Below are platform specific fields..
-
-    HWND hwnd; // Window handle.
-    HDC  hdc;  // Device context.
-} windowT;
 
 /*------------------------------------------------
  * GLOBALS
@@ -212,13 +193,13 @@ static void createWindow(const string* title, int width, int height) {
 }
 
 /*--------------------------------------
- * Function: getWindowDC()
+ * Function: getWindowPtr()
  *------------------------------------*/
-HDC getWindowDC(void) {
+windowT* getWindowPtr(void) {
     if (!window)
         error("graphics not initialized");
 
-    return (window->hdc);
+    return (window);
 }
 
 /*--------------------------------------
