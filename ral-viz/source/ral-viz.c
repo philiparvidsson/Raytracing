@@ -15,8 +15,12 @@
 
 #include "base/common.h"
 #include "graphics/pixmap.h"
+#include "math/ray.h"
+#include "math/surface.h"
+#include "math/surfaces/plane_surface.h"
 #include "math/vector.h"
 #include "graphics.h"
+#include "raytracer.h"
 
 #include <stdio.h>
 
@@ -53,49 +57,21 @@ static void printIntroMessage(void) {
 int main(int argc, char* argv[]) {
     printIntroMessage();
 
-    initGraphics("ral-viz pre-alpha", 1280, 720);
+    initGraphics("ral-viz pre-alpha", 720, 720);
 
-    pixmapT* pixmap = createPixmap(1280, 720);
+    raytracerT* raytracer = createRaytracer(720, 720);
 
-    int y = 0;
+    //addSurface(raytracer, createPlaneSurface());
+    addSurface(raytracer, createSphereSurface());
+
     while (windowIsOpen()) {
-
-        if (y < 720) {
-            for (int x = 0; x < 1280; x++) {
-                vec3 e = (vec3) { 0.0f, 1.0f, 2.0f };
-                vec3 s = (vec3) { 0.0f, 0.0f, 0.0f };
-
-                float wx = (x - 639.5f) / 639.5f;
-                float wy = (y - 359.5f) / 359.5f;
-
-                vec3 r = (vec3) { wx, wy, -e.z };
-
-                // plane: y = 0, t > 1.0
-                // e.y + t*r.y = 0
-                // t*r.y = -e.y
-                // t = -e.y/r.y
-
-                float p = -e.y / r.y;
-                if (p >= 1.0f) {
-                    setPixelf(pixmap, x, 719-y, 1.0f/p, 0.0f, 0.0f);
-                }
-                else {
-                    setPixelf(pixmap, x, 719-y, 1.0f, 1.0f, 1.0f);
-                }
-
-                // sphere: x^2+y^2+z^2=r^2
-                // (e.x+t*r.x)^2 + (e.y+t*r.y)^2 + (e.z+t*r.z)^2 = r^2
-            }
-        }
-
-        y++;
-
-        blitPixmap(pixmap, 0, 0);
+        raytraceAll(raytracer);
+        blitPixmap(raytracer->pixmap, 0, 0);
 
         updateDisplay();
     }
 
-    freePixmap(pixmap);
+    free(raytracer);
     exitGraphics();
 
     printf("Bye!\n");

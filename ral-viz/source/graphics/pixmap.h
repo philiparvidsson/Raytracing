@@ -160,4 +160,38 @@ static inline void setPixelf(pixmapT* pixmap, int x, int y,
  *------------------------------------*/
 void blitPixmap(const pixmapT* pixmap, int x, int y);
 
+/*--------------------------------------
+ * Function: pixmapWidth(pixmap)
+ *
+ * Parameters:
+ *   pixmap  Pixmap to get width of.
+ *
+ * Returns:
+ *   Width of the pixmap, in pixels.
+ *
+ * Description:
+ *   Gets the width of a pixmap.
+ *
+ * Usage:
+ *   int width = pixmapWidth(my_pixmap);
+ *------------------------------------*/
+int pixmapWidth(const pixmapT* pixmap);
+
+/*--------------------------------------
+ * Function: pixmapHeight(pixmap)
+ *
+ * Parameters:
+ *   pixmap  Pixmap to get height of.
+ *
+ * Returns:
+ *   Height of the pixmap, in pixels.
+ *
+ * Description:
+ *   Gets the height of a pixmap.
+ *
+ * Usage:
+ *   int height = pixmapHeight(my_pixmap);
+ *------------------------------------*/
+int pixmapHeight(const pixmapT* pixmap);
+
 #endif // bitmap_h_

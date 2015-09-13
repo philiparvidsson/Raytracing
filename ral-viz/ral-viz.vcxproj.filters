@@ -33,6 +33,18 @@
     <ClCompile Include="source\arch\win32\pixmap_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\math\surface.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\math\surfaces\sphere_surface.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\math\surfaces\plane_surface.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\raytracer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\graphics.h">
@@ -56,8 +68,31 @@
     <ClInclude Include="source\arch\win32\win32_private.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\buildnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\surfaces\sphere_surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\surfaces\plane_surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\raytracer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build\postbuild.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

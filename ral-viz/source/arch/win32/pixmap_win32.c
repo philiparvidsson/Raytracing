@@ -115,4 +115,18 @@ void blitPixmap(const pixmapT* pixmap, int x, int y) {
         warn("BitBlt failed");
 }
 
+/*--------------------------------------
+ * Function: pixmapWidth(pixmap)
+ *------------------------------------*/
+int pixmapWidth(const pixmapT* pixmap) {
+    return (pixmap->width);
+}
+
+/*--------------------------------------
+ * Function: pixmapHeight(pixmap)
+ *------------------------------------*/
+int pixmapHeight(const pixmapT* pixmap) {
+    return (pixmap->height);
+}
+
 #endif // _WIN32
