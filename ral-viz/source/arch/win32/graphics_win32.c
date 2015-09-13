@@ -17,6 +17,7 @@
 
 #include "graphics.h"
 
+#include "arch/win32/utils_win32.h"
 #include "base/common.h"
 #include "base/debug.h"
 
@@ -66,7 +67,7 @@ typedef struct windowT {
 
     // Below are platform specific fields..
 
-    HWND  hwnd;  // Window handle.
+    HWND hwnd;  // Window handle.
 } windowT;
 
 /*------------------------------------------------
@@ -225,6 +226,9 @@ void exitGraphics(void) {
         return;
 
     unregisterWindowClass();
+
+    free(window);
+    window = NULL;
 }
 
 /*--------------------------------------
@@ -245,7 +249,7 @@ void updateDisplay(void) {
  * Function: windowIsOpen()
  *------------------------------------*/
 bool windowIsOpen(void) {
-    return (window);
+    return (window && window->hwnd);
 }
 
 #endif // _WIN32

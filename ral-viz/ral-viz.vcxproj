@@ -83,14 +83,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\arch\win32\graphics_win32.c" />
+    <ClCompile Include="source\arch\win32\utils_win32.c" />
     <ClCompile Include="source\base\common.c" />
     <ClCompile Include="source\base\debug.c" />
     <ClCompile Include="source\ral-viz.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\arch\win32\utils_win32.h" />
     <ClInclude Include="source\base\common.h" />
     <ClInclude Include="source\base\debug.h" />
     <ClInclude Include="source\graphics.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="license.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

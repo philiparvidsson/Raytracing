@@ -59,21 +59,4 @@ typedef char stringT;
  * FUNCTIONS
  *----------------------------------------------*/
 
-/*--------------------------------------
- * Function: wstrdup(str)
- *
- * Parameters:
- *   str  String to create a wide duplicate of.
- *
- * Description:
- *   Creates a multi-byte string duplicate of the specified string. Don't forget
- *   to call free() on the returned string when you are done with it!
- *
- * Usage:
- *   wchar_t* wstr = wstrdup(str);
- *   ...
- *   free(wstr);
- *------------------------------------*/
-wchar_t* wstrdup(const string* str);
-
 #endif // common_h_

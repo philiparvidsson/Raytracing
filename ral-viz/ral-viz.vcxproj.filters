@@ -27,6 +27,9 @@
     <ClCompile Include="source\base\debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\arch\win32\utils_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\graphics.h">
@@ -38,5 +41,11 @@
     <ClInclude Include="source\base\debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\arch\win32\utils_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="license.txt" />
   </ItemGroup>
 </Project>

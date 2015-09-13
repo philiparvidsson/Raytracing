@@ -59,5 +59,7 @@ int main(int argc, char* argv[]) {
 
     exitGraphics();
 
+    printf("Bye!\n");
+
     return (0);
 }
