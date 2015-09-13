@@ -93,11 +93,14 @@
     <ClCompile Include="source\arch\win32\utils_win32.c" />
     <ClCompile Include="source\base\common.c" />
     <ClCompile Include="source\base\debug.c" />
+    <ClCompile Include="source\math\material.c" />
+    <ClCompile Include="source\math\materials\ambient_material.c" />
+    <ClCompile Include="source\math\materials\diffuse_material.c" />
     <ClCompile Include="source\math\surface.c" />
     <ClCompile Include="source\math\surfaces\plane_surface.c" />
     <ClCompile Include="source\math\surfaces\sphere_surface.c" />
     <ClCompile Include="source\ral-viz.c" />
-    <ClCompile Include="source\raytracer.c" />
+    <ClCompile Include="source\graphics\raytracer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\arch\win32\utils_win32.h" />
@@ -107,8 +110,11 @@
     <ClInclude Include="source\base\debug.h" />
     <ClInclude Include="source\graphics.h" />
     <ClInclude Include="source\graphics\pixmap.h" />
+    <ClInclude Include="source\math\material.h" />
+    <ClInclude Include="source\math\materials\ambient_material.h" />
+    <ClInclude Include="source\math\materials\diffuse_material.h" />
     <ClInclude Include="source\math\ray.h" />
-    <ClInclude Include="source\raytracer.h" />
+    <ClInclude Include="source\graphics\raytracer.h" />
     <ClInclude Include="source\math\surface.h" />
     <ClInclude Include="source\math\surfaces\plane_surface.h" />
     <ClInclude Include="source\math\surfaces\sphere_surface.h" />

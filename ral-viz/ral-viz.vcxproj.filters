@@ -42,7 +42,16 @@
     <ClCompile Include="source\math\surfaces\plane_surface.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\raytracer.c">
+    <ClCompile Include="source\math\material.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\graphics\raytracer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\math\materials\ambient_material.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\math\materials\diffuse_material.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +89,19 @@
     <ClInclude Include="source\math\surfaces\plane_surface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\raytracer.h">
+    <ClInclude Include="source\math\ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\math\ray.h">
+    <ClInclude Include="source\math\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\graphics\raytracer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\materials\ambient_material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\materials\diffuse_material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,12 +15,15 @@
 
 #include "base/common.h"
 #include "graphics/pixmap.h"
+#include "graphics/raytracer.h"
 #include "math/ray.h"
+#include "math/material.h"
+#include "math/materials/ambient_material.h"
+#include "math/materials/diffuse_material.h"
 #include "math/surface.h"
 #include "math/surfaces/plane_surface.h"
 #include "math/vector.h"
 #include "graphics.h"
-#include "raytracer.h"
 
 #include <stdio.h>
 
@@ -62,7 +65,14 @@ int main(int argc, char* argv[]) {
     raytracerT* raytracer = createRaytracer(720, 720);
 
     //addSurface(raytracer, createPlaneSurface());
-    addSurface(raytracer, createSphereSurface());
+    surfaceT* sphere = createSphereSurface();
+    sphere->material = createDiffuseMaterial(0.1f, 0.1f, 0.1f, 0.9f, 0.9f, 0.9f);
+
+    surfaceT* plane = createPlaneSurface();
+    plane->material = createAmbientMaterial(1.0f, 0.0f, 0.0f);
+
+    addSurface(raytracer, sphere);
+    addSurface(raytracer, plane);
 
     while (windowIsOpen()) {
         raytraceAll(raytracer);

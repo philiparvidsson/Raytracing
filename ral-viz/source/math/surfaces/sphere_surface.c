@@ -75,6 +75,7 @@ static intersectionT findSphereIntersection(rayT* ray, surfaceT* surface) {
                                          ray->origin.z + t*ray->direction.z };
         intersection.normal   = intersection.position;
         vec_sub(&intersection.normal, &sphere->center, &intersection.normal);
+        vec_normalize(&intersection.normal, &intersection.normal);
     }
 
     return (intersection);

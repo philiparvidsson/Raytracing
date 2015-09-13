@@ -27,23 +27,23 @@ void addSurface(raytracerT* raytracer, surfaceT* surface) {
 }
 
 void raytraceAll(raytracerT* raytracer) {
-    int width  = pixmapWidth (raytracer->pixmap);
-    int height = pixmapHeight(raytracer->pixmap);
-    float half_width = (width - 1) / 2.0f;
-    float half_height = (width - 1) / 2.0f;
+    int   width       = pixmapWidth (raytracer->pixmap);
+    int   height      = pixmapHeight(raytracer->pixmap);
+    float half_width  = (width  - 1) / 2.0f;
+    float half_height = (height - 1) / 2.0f;
 
     rayT ray;
-    ray.origin = (vec3) { 0.0f, 1.0f, 2.0f };
+    ray.origin = (vec3) { 0.0f, 0.35f, 2.0f };
 
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
             ray.direction = (vec3) {  (x - half_width ) / half_width,
                                      -(y - half_height) / half_height,
-                                     -1.0f };
+                                     -1.0f };   
 
             intersectionT intersection = { 0 };
 
-            intersection.t = 1000.0f;
+            intersection.t = FLT_MAX;
 
             surfaceT* surface = raytracer->surfaces;
             while (surface) {
@@ -57,13 +57,16 @@ void raytraceAll(raytracerT* raytracer) {
             }
 
             // It's safe to test equality against FLT_MAX here.
-            if (intersection.t > 100.0f) {
+            if (intersection.t == FLT_MAX) {
                 // No intersection - background color.
                 setPixel(raytracer->pixmap, x, y, 0, 0, 0);
                 continue;
             }
 
-            setPixelf(raytracer->pixmap, x, y, 1.0f, 0.0f, 0.0f);
+            materialT* material = intersection.surface->material;
+            vec3       color    = material->color_fn(raytracer, &intersection);
+
+            setPixelf(raytracer->pixmap, x, y, color.x, color.y, color.z);
         }
     }
 }
