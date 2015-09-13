@@ -65,7 +65,7 @@ static intersectionT findSphereIntersection(rayT* ray, surfaceT* surface) {
               square(ray->origin.z - sphere->center.z) -
               square(sphere->radius);
 
-    float d = -c/a + 0.25f * square(b/a);
+    float d = -c/a + 0.25f*square(b/a);
 
     if (d >= 0.0f) {
         float t = -sqrtf(d) - 0.5*(b/a);

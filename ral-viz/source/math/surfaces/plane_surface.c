@@ -18,8 +18,7 @@ static intersectionT findPlaneIntersection(rayT* ray, surfaceT* surface) {
     // t=-o_y/d_y
 
     float t = -ray->origin.y / ray->direction.y;
-
-    if (t >= 1.0f) {
+    if (t > 0.0f) {
         intersection.t        = t;
         intersection.position = (vec3) { ray->origin.x + t*ray->direction.x,
                                          ray->origin.y + t*ray->direction.y,
