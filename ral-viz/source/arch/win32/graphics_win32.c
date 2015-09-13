@@ -20,6 +20,7 @@
 #include "arch/win32/utils_win32.h"
 #include "base/common.h"
 #include "base/debug.h"
+#include "graphics/pixmap.h"
 
 #include <windows.h>
 
@@ -67,7 +68,8 @@ typedef struct windowT {
 
     // Below are platform specific fields..
 
-    HWND hwnd;  // Window handle.
+    HWND hwnd; // Window handle.
+    HDC  hdc;  // Device context.
 } windowT;
 
 /*------------------------------------------------
@@ -201,12 +203,22 @@ static void createWindow(const string* title, int width, int height) {
 
     ShowWindow(window->hwnd, SW_SHOW);
 
-    //window->hdc = GetDC(window->hwnd);
+    window->hdc = GetDC(window->hwnd);
 
     //assert(window->hdc != NULL);
 
     window->width  = width;
     window->height = height;
+}
+
+/*--------------------------------------
+ * Function: getWindowDC()
+ *------------------------------------*/
+HDC getWindowDC(void) {
+    if (!window)
+        error("graphics not initialized");
+
+    return (window->hdc);
 }
 
 /*--------------------------------------
@@ -228,6 +240,7 @@ void exitGraphics(void) {
     if (!window)
         return;
 
+    // @To-do: destroyWindow();
     unregisterWindowClass();
 
     free(window);

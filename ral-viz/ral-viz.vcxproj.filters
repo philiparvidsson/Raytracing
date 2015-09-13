@@ -30,6 +30,9 @@
     <ClCompile Include="source\arch\win32\utils_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\arch\win32\pixmap_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\graphics.h">
@@ -42,6 +45,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\arch\win32\utils_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\graphics\pixmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\arch\win32\win32_private.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

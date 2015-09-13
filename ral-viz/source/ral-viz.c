@@ -14,6 +14,7 @@
  *----------------------------------------------*/
 
 #include "base/common.h"
+#include "graphics/pixmap.h"
 #include "graphics.h"
 
 #include <stdio.h>
@@ -53,7 +54,20 @@ int main(int argc, char* argv[]) {
 
     initGraphics("ral-viz pre-alpha", 1280, 720);
 
+    pixmapT* pixmap = createPixmap(1280, 720);
+    setPixelf(pixmap, 10, 10, 1.0f, 0.0f, 0.0f);
+
+    int num = 0;
     while (windowIsOpen()) {
+        int x = rand() % 1280;
+        int y = rand() % 720;
+        int r = rand() & 255;
+        int g = rand() & 255;
+        int b = rand() & 255;
+        setPixel(pixmap, x, y, r, g, b);
+
+        if ((num++ % 10000) == 0)
+            blitPixmap(pixmap, 0, 0);
         updateDisplay();
     }
 

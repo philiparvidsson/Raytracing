@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\arch\win32\graphics_win32.c" />
+    <ClCompile Include="source\arch\win32\pixmap_win32.c" />
     <ClCompile Include="source\arch\win32\utils_win32.c" />
     <ClCompile Include="source\base\common.c" />
     <ClCompile Include="source\base\debug.c" />
@@ -90,9 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\arch\win32\utils_win32.h" />
+    <ClInclude Include="source\arch\win32\win32_private.h" />
     <ClInclude Include="source\base\common.h" />
     <ClInclude Include="source\base\debug.h" />
     <ClInclude Include="source\graphics.h" />
+    <ClInclude Include="source\graphics\pixmap.h" />
+    <ClInclude Include="source\math\vector.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="license.txt" />

@@ -35,6 +35,18 @@
  * MACROS
  *----------------------------------------------*/
 
+#ifdef _MSC_VER
+
+// The inline keyword was introduced in C99 so MSVC++ doesn't support it.
+// However, it supports the __inline keyword which exactly the same, so we can
+// just alias it on MSVC++.
+#define inline __inline
+
+// The _Noreturn keyword was introduced in C11.
+#define _Noreturn  __declspec(noreturn)
+
+#endif // _MSC_VER
+
 /*--------------------------------------
  * Macro: string
  *
@@ -42,6 +54,10 @@
  *   String type macro.
  *------------------------------------*/
 #define string stringT
+
+#define clamp(x, a, b) max(min(x, b), a)
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 
 /*------------------------------------------------
  * TYPES
