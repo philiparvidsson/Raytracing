@@ -62,8 +62,8 @@
  *   Represents a window.
  *------------------------------------*/
 typedef struct windowT {
-    int           width,  // Window width, in pixels.
-                  height; // Window height, in pixels.
+    int width,  // Window width, in pixels.
+        height; // Window height, in pixels.
 
     // Below are platform specific fields..
 
@@ -150,6 +150,9 @@ static void unregisterWindowClass(void) {
     free(class_name);
 }
 
+/*--------------------------------------
+ * Function: createWindow(title, width, height)
+ *------------------------------------*/
 static void createWindow(const string* title, int width, int height) {
     RECT window_rect = { 0 };
 
