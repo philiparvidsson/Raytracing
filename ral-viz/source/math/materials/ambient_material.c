@@ -4,7 +4,7 @@
 #include "math/material.h"
 #include "math/vector.h"
 
-static vec3 calcAmbienetColor(raytracerT* raytracer, intersectionT* intersection) {
+static vec3 calcAmbientColor(raytracerT* raytracer, intersectionT* intersection) {
     ambientMaterialT* material = intersection->surface->material->data;
 
     return (material->color);
@@ -13,7 +13,7 @@ static vec3 calcAmbienetColor(raytracerT* raytracer, intersectionT* intersection
 materialT* createAmbientMaterial(float r, float g, float b) {
     materialT* material = createMaterial();
 
-    material->color_fn = calcAmbienetColor;
+    material->color_fn = calcAmbientColor;
     material->data     = malloc(sizeof(ambientMaterialT));
 
     ((ambientMaterialT*)material->data)->color = (vec3) { r, g, b };
