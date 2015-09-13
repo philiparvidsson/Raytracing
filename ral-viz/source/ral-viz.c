@@ -15,6 +15,7 @@
 
 #include "base/common.h"
 #include "graphics/pixmap.h"
+#include "math/vector.h"
 #include "graphics.h"
 
 #include <stdio.h>
@@ -55,19 +56,42 @@ int main(int argc, char* argv[]) {
     initGraphics("ral-viz pre-alpha", 1280, 720);
 
     pixmapT* pixmap = createPixmap(1280, 720);
-    setPixelf(pixmap, 10, 10, 1.0f, 0.0f, 0.0f);
 
-    int num = 0;
+    int y = 0;
     while (windowIsOpen()) {
-        int x = rand() % 1280;
-        int y = rand() % 720;
-        int r = rand() & 255;
-        int g = rand() & 255;
-        int b = rand() & 255;
-        setPixel(pixmap, x, y, r, g, b);
 
-        if ((num++ % 10000) == 0)
-            blitPixmap(pixmap, 0, 0);
+        if (y < 720) {
+            for (int x = 0; x < 1280; x++) {
+                vec3 e = (vec3) { 0.0f, 1.0f, 2.0f };
+                vec3 s = (vec3) { 0.0f, 0.0f, 0.0f };
+
+                float wx = (x - 639.5f) / 639.5f;
+                float wy = (y - 359.5f) / 359.5f;
+
+                vec3 r = (vec3) { wx, wy, -e.z };
+
+                // plane: y = 0, t > 1.0
+                // e.y + t*r.y = 0
+                // t*r.y = -e.y
+                // t = -e.y/r.y
+
+                float p = -e.y / r.y;
+                if (p >= 1.0f) {
+                    setPixelf(pixmap, x, 719-y, 1.0f/p, 0.0f, 0.0f);
+                }
+                else {
+                    setPixelf(pixmap, x, 719-y, 1.0f, 1.0f, 1.0f);
+                }
+
+                // sphere: x^2+y^2+z^2=r^2
+                // (e.x+t*r.x)^2 + (e.y+t*r.y)^2 + (e.z+t*r.z)^2 = r^2
+            }
+        }
+
+        y++;
+
+        blitPixmap(pixmap, 0, 0);
+
         updateDisplay();
     }
 
