@@ -6,7 +6,7 @@
 #include "optics/ray.h"
 #include "optics/raytracer.h"
 
-typedef vec3(*materialColorFn)(const struct raytracerT*, const struct intersectionT*);
+typedef vec3(*materialColorFn)(const struct materialT*, const struct raytracerT*, const struct intersectionT*);
 
 typedef struct materialT {
     materialColorFn color_fn;

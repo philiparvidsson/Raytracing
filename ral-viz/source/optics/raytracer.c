@@ -86,7 +86,7 @@ void raytraceAll(raytracerT* raytracer) {
             }
 
             materialT* material = intersection.surface->material;
-            vec3       color    = material->color_fn(raytracer, &intersection);
+            vec3       color    = material->color_fn(material, raytracer, &intersection);
 
             setPixelf(raytracer->pixmap, x, y, color.x, color.y, color.z);
         }
@@ -124,7 +124,7 @@ void raytraceLine(raytracerT* raytracer, int y) {
 
                 materialT* material = intersection.surface->material;
 
-                vec3 c = material->color_fn(raytracer, &intersection);
+                vec3 c = material->color_fn(material, raytracer, &intersection);
                 vec_add(&c, &color, &color);
 
             }
@@ -138,7 +138,7 @@ void raytraceLine(raytracerT* raytracer, int y) {
 vec3 calcFinalColor(raytracerT* raytracer, intersectionT* intersection) {
     materialT* material = intersection->surface->material;
 
-    vec3 color = material->color_fn(raytracer, intersection);
+    vec3 color = material->color_fn(material, raytracer, intersection);
 
     return (color);
 }
@@ -181,6 +181,10 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
             }
 
             vec_scale(&color, 1.0f/225.0f, &color);
+
+            color.x = sqrtf(color.x);
+            color.y = sqrtf(color.y);
+            color.z = sqrtf(color.z);
             setPixelf(raytracer->pixmap, rx, ry, color.x, color.y, color.z);
         }
     }

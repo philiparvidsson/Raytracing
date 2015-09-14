@@ -4,10 +4,10 @@
 #include "math/vector.h"
 #include "optics/material.h"
 
-static vec3 calcMaterialColor(raytracerT* raytracer, intersectionT* intersection) {
-    diffuseMaterialT* material = intersection->surface->material->data;
+static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, intersectionT* intersection) {
+    diffuseMaterialT* difmat = material->data;
 
-    vec3 color = material->ambient_color;
+    vec3 color = difmat->ambient_color;
 
     lightSourceT* light_source = raytracer->light_sources;
     while (light_source) {
@@ -30,9 +30,9 @@ static vec3 calcMaterialColor(raytracerT* raytracer, intersectionT* intersection
 
                 f = clamp(f, 0.0f, 1.0f);
 
-                color.x += f*material->diffuse_color.x*mult;
-                color.y += f*material->diffuse_color.y*mult;
-                color.z += f*material->diffuse_color.z*mult;
+                color.x += f*difmat->diffuse_color.x*mult;
+                color.y += f*difmat->diffuse_color.y*mult;
+                color.z += f*difmat->diffuse_color.z*mult;
             }
         }
 

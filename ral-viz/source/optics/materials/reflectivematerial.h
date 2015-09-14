@@ -7,8 +7,9 @@
 
 typedef struct reflectiveMaterialT {
     float reflectiveness;
+    int num_samples;
 } reflectiveMaterialT;
 
-materialT* createReflectiveMaterial(float reflectiveness);
+materialT* createReflectiveMaterial(float reflectiveness, int num_samples);
 
 #endif // reflectivematerial_h_

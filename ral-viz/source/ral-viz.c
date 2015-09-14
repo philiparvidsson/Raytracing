@@ -78,6 +78,59 @@ static void printIntroMessage(void) {
     printf("ral-viz early build\nnothing to see here yet...\n\n");
 }
 
+static inline float absf(float f) {
+    if (f < 0.0f)
+        return (-f);
+    return (f);
+}
+
+float mixFunc(materialT* material, raytracerT* raytracer, intersectionT* intersection) {
+    lightSourceT* light_source = raytracer->light_sources;
+    
+
+    //float mix = 0.0f;
+    /*while (light_source) {
+        float mult = 1.0f / light_source->num_samples;
+
+        for (int i = 0; i < light_source->num_samples; i++) {
+            lightRayT light_ray = light_source->light_fn(light_source, intersection);
+
+            rayT shadow_ray;
+            shadow_ray.origin = intersection->position;
+            shadow_ray.direction = light_ray.direction;
+
+            intersectionT occlusion_intersection = findIntersection(raytracer, &shadow_ray, intersection->surface, light_ray.distance);
+
+            if (occlusion_intersection.t <= 0.0f) {
+                vec3 v = intersection->position;
+                vec_sub(&v, &intersection->ray.origin, &v);
+                vec_normalize(&v, &v);
+
+                vec3 r;
+                vec_reflect(&light_ray.direction, &intersection->normal, &r);
+
+                float specular = powf(absf(vec_dot(&r, &v)), 20.0f);
+
+                mix += specular * mult;
+            }
+        }
+
+
+        light_source = light_source->next;
+    }*/
+
+    //mix = powf(mix, 1.0f/3.0f);
+    vec3 v = intersection->position;
+    vec_sub(&v, &intersection->ray.origin, &v);
+    vec_normalize(&v, &v);
+    vec3 r;
+    vec_reflect(&v, &intersection->normal, &r);
+
+    float mix = powf(clamp(vec_dot(&r, &v), 0.0f, 1.0f), 2.5f);
+
+    return (0.4f * clamp(mix, 0.0f, 1.0f) + 0.03f);
+}
+
 /*--------------------------------------
  * Function: main(argc, argv)
  *
@@ -99,7 +152,7 @@ int main(int argc, char* argv[]) {
     raytracerT* raytracer = createRaytracer(720, 720);
 
     //lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
-    lightSourceT* light_source1 = createSphereLightSource((vec3) { -0.3f, 0.1f, 0.0f }, 0.05f);
+    lightSourceT* light_source1 = createSphereLightSource((vec3) { -0.3f, 0.1f, 0.4f }, 0.05f);
     lightSourceT* light_source2 = createSphereLightSource((vec3) { -0.4f, 1.6f, 0.7f }, 0.2f);
     lightSourceT* light_source3 = createSphereLightSource((vec3) { 0.3f, 1.8f, -0.4f }, 0.1f);
 
@@ -120,23 +173,36 @@ int main(int argc, char* argv[]) {
     addLightSource(raytracer, light_source2);
     addLightSource(raytracer, light_source3);
 
-    surfaceT* sphere1 = createSphereSurface((vec3) { 0.2f, 0.4f, 0.2f }, 0.1f);
+    surfaceT* sphere1 = createSphereSurface((vec3) { 0.2f, 0.1f, 0.2f }, 0.1f);
     /*sphere1->material = createPhongMaterial((vec3) { 0.2f, 0.0f, 0.0f },
                                             (vec3) { 0.8f, 0.0f, 0.0f },
                                             (vec3) { 1.0f, 1.0f, 1.0f }, 50.0f);
 */
-    sphere1->material = createReflectiveMaterial(1.0);
-    surfaceT* sphere2 = createSphereSurface((vec3) { -0.3f, 0.6f, 0.0f }, 0.3f);
+    sphere1->material = createMixMaterial(
+                            createReflectiveMaterial(1.0, 8),
+                            createPhongMaterial((vec3) { 0.0f, 0.1f, 0.2f },
+                                                (vec3) { 0.0f, 0.5f, 1.0f },
+                                                (vec3) { 1.0f, 1.0f, 1.0f }, 90.0f),
+                            mixFunc);
+    //sphere1->material = createReflectiveMaterial(1.0, 1);
+
+    surfaceT* sphere2 = createSphereSurface((vec3) { -0.3f, 0.3f, 0.0f }, 0.3f);
     sphere2->material = createPhongMaterial((vec3) { 0.2f, 0.2f, 0.2f },
                                             (vec3) { 0.8f, 0.8f, 0.8f },
                                             (vec3) { 0.8f, 0.8f, 0.8f }, 20.0f);
-
+    sphere2->material = createMixMaterial(
+                            createReflectiveMaterial(1.0, 8),
+                            createPhongMaterial((vec3) { 0.2f, 0.15f, 0.0f },
+                                                (vec3) { 0.8f, 0.6f, 0.0f },
+                                                (vec3) { 4.0f, 4.0f, 4.0f }, 180.0f),
+                            mixFunc);
     surfaceT* plane = createPlaneSurface();
-    plane->material = createDiffuseMaterial((vec3) { 0.2f, 0.0f, 0.0f },
-                                            (vec3) { 0.9f, 0.3f, 0.3f });
+    plane->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
+                                            (vec3) { 1.0f, 1.0f, 1.0f });
 
     surfaceT* sphere3 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 8.0f);
-    sphere3->material = createDiffuseMaterial((vec3) { 0.7f, 0.8f, 0.9f }, (vec3) { 0.3f, 0.2f, 0.1f });
+    sphere3->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
+        (vec3) { 0.0f, 0.0f, 0.0f });
 
     //sphere1->material = sphere2->material;
     addSurface(raytracer, sphere1);
@@ -151,7 +217,7 @@ int main(int argc, char* argv[]) {
         args->index = i;
         args->step = num_threads;
         args->raytracer = raytracer;
-        args->size = 4;
+        args->size = 16;
         createThread(tracerThread, args);
     }
 

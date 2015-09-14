@@ -2,10 +2,10 @@
 
 #include <float.h>
 
-static vec3 calcMaterialColor(raytracerT* raytracer, intersectionT* intersection) {
-    phongMaterialT* material = intersection->surface->material->data;
+static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, intersectionT* intersection) {
+    phongMaterialT* m = material->data;
 
-    vec3 color = material->ambient_color;
+    vec3 color = m->ambient_color;
 
     lightSourceT* light_source = raytracer->light_sources;
     while (light_source) {
@@ -29,10 +29,10 @@ static vec3 calcMaterialColor(raytracerT* raytracer, intersectionT* intersection
                 vec_reflect(&light_ray.direction, &intersection->normal, &r);
 
                 float diffuse = max(0.0f, vec_dot(&light_ray.direction, &intersection->normal));
-                float specular = powf(max(0.0f, vec_dot(&r, &v)), material->shininess);
+                float specular = powf(max(0.0f, vec_dot(&r, &v)), m->shininess);
 
-                vec3 dc = material->diffuse_color;
-                vec3 sc = material->specular_color;
+                vec3 dc = m->diffuse_color;
+                vec3 sc = m->specular_color;
 
                 vec_scale(&dc, diffuse*mult, &dc);
                 vec_scale(&sc, specular*mult, &sc);
