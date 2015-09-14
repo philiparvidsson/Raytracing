@@ -135,6 +135,14 @@ void raytraceLine(raytracerT* raytracer, int y) {
     }
 }
 
+vec3 calcFinalColor(raytracerT* raytracer, intersectionT* intersection) {
+    materialT* material = intersection->surface->material;
+
+    vec3 color = material->color_fn(raytracer, intersection);
+
+    return (color);
+}
+
 void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     int   width       = pixmapWidth (raytracer->pixmap);
     int   height      = pixmapHeight(raytracer->pixmap);
@@ -167,11 +175,8 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
                         continue;
                     }
 
-                    materialT* material = intersection.surface->material;
-
-                    vec3 c = material->color_fn(raytracer, &intersection);
+                    vec3 c = calcFinalColor(raytracer, &intersection);
                     vec_add(&c, &color, &color);
-
                 }
             }
 

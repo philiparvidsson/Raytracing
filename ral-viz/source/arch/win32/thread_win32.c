@@ -27,7 +27,8 @@ threadT* createThread(threadFnT thread_fn, void* arg) {
     thread->fn  = thread_fn;
     thread->arg = arg;
 
-    CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&threadFunc, thread, 0, &thread->id);
+    HANDLE h = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&threadFunc, thread, 0, &thread->id);
+    SetThreadPriority(h, THREAD_PRIORITY_LOWEST);
 }
 
 void destroyThread(threadT* thread) {

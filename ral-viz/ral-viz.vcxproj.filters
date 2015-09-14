@@ -69,6 +69,15 @@
     <ClCompile Include="source\optics\lightsources\spherelightsource.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\optics\materials\phongmaterial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\optics\materials\mixmaterial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\optics\materials\reflectivematerial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\graphics.h">
@@ -132,6 +141,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\optics\lightsources\spherelightsource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\optics\materials\phongmaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\optics\materials\mixmaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\optics\materials\reflectivematerial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

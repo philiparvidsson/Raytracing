@@ -101,6 +101,9 @@
     <ClCompile Include="source\optics\material.c" />
     <ClCompile Include="source\optics\materials\ambientmaterial.c" />
     <ClCompile Include="source\optics\materials\diffusematerial.c" />
+    <ClCompile Include="source\optics\materials\mixmaterial.c" />
+    <ClCompile Include="source\optics\materials\phongmaterial.c" />
+    <ClCompile Include="source\optics\materials\reflectivematerial.c" />
     <ClCompile Include="source\optics\surface.c" />
     <ClCompile Include="source\optics\surfaces\planesurface.c" />
     <ClCompile Include="source\optics\surfaces\spheresurface.c" />
@@ -122,6 +125,9 @@
     <ClInclude Include="source\optics\material.h" />
     <ClInclude Include="source\optics\materials\ambientmaterial.h" />
     <ClInclude Include="source\optics\materials\diffusematerial.h" />
+    <ClInclude Include="source\optics\materials\mixmaterial.h" />
+    <ClInclude Include="source\optics\materials\phongmaterial.h" />
+    <ClInclude Include="source\optics\materials\reflectivematerial.h" />
     <ClInclude Include="source\optics\ray.h" />
     <ClInclude Include="source\optics\raytracer.h" />
     <ClInclude Include="source\optics\surface.h" />

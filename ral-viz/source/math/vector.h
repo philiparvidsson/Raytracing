@@ -153,6 +153,9 @@
 #define vec_dot(a, b) vec_dot_((float*)a, (float*)b, \
                                min(vec_n(*a), vec_n(*b)))
 
+#define vec_reflect(a, b, r) vec_reflect_((float*)a, (float*)b, (float*)r, \
+                                          min(vec_n(*a), vec_n(*b)))
+
 #define vec_flip(v, r) \
     vec_flip_((float*)v, (float*)r, min(vec_n(*v), vec_n(*r)))
 
@@ -414,6 +417,13 @@ static inline float vec2_perp_dot(const vec2* a, const vec2* b) {
 static inline void vec2_perp(const vec2* v, vec2* r) {
     r->x = -v->y;
     r->y = v->x;
+}
+
+static inline void vec_reflect_(const float* a, const float* b, float* r, int n) {
+    float d = 2*vec_dot_(a, b, n);
+
+    for (int i = 0; i < n; i++)
+        r[i] = a[i] - d*b[i];
 }
 
 static inline void vec_flip_(const float* v, float* r, int n) {

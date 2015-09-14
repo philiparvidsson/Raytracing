@@ -4,7 +4,7 @@
 #include "math/vector.h"
 #include "optics/material.h"
 
-static vec3 calcDiffuseColor(raytracerT* raytracer, intersectionT* intersection) {
+static vec3 calcMaterialColor(raytracerT* raytracer, intersectionT* intersection) {
     diffuseMaterialT* material = intersection->surface->material->data;
 
     vec3 color = material->ambient_color;
@@ -46,7 +46,7 @@ static vec3 calcDiffuseColor(raytracerT* raytracer, intersectionT* intersection)
 materialT* createDiffuseMaterial(vec3 ambient_color, vec3 diffuse_color) {
     materialT* material = createMaterial();
 
-    material->color_fn = calcDiffuseColor;
+    material->color_fn = calcMaterialColor;
     material->data     = malloc(sizeof(diffuseMaterialT));
 
     ((diffuseMaterialT*)material->data)->ambient_color = ambient_color;
