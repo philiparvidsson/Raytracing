@@ -93,6 +93,9 @@
     <ClCompile Include="source\arch\win32\utils_win32.c" />
     <ClCompile Include="source\base\common.c" />
     <ClCompile Include="source\base\debug.c" />
+    <ClCompile Include="source\optics\lightsource.c" />
+    <ClCompile Include="source\optics\lightsources\directionallightsource.c" />
+    <ClCompile Include="source\optics\lightsources\pointlightsource.c" />
     <ClCompile Include="source\optics\material.c" />
     <ClCompile Include="source\optics\materials\ambientmaterial.c" />
     <ClCompile Include="source\optics\materials\diffusematerial.c" />
@@ -111,7 +114,8 @@
     <ClInclude Include="source\graphics.h" />
     <ClInclude Include="source\graphics\pixmap.h" />
     <ClInclude Include="source\optics\lightsource.h" />
-    <ClInclude Include="source\optics\lightsources\directionallight.h" />
+    <ClInclude Include="source\optics\lightsources\directionallightsource.h" />
+    <ClInclude Include="source\optics\lightsources\pointlightsource.h" />
     <ClInclude Include="source\optics\material.h" />
     <ClInclude Include="source\optics\materials\ambientmaterial.h" />
     <ClInclude Include="source\optics\materials\diffusematerial.h" />

@@ -38,7 +38,7 @@ static intersectionT findSphereIntersection(rayT* ray, surfaceT* surface) {
     //   2t((o_x-c_x)*d_x+(o_y-c_y)*d_y+(o_z-c_z)*d_y) +
     //   t^2(d_x^2+d_y^2+d_z^2) - r^2 = 0
     //
-    // This gives us a quadratic equation on the form ax^2+bx+c=0:
+    // This gives us a quadratic equation of the form ax^2+bx+c=0:
     //
     //   a = (d_x^2+d_y^2+d_z^2)
     //   b = 2((o_x-c_x)*d_x+(o_y-c_y)*d_y+(o_z-c_z)*d_y)

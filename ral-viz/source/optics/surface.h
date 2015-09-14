@@ -5,7 +5,7 @@
 #include "optics/material.h"
 #include "optics/ray.h"
 
-typedef struct intersectionT(*intersectFnT)(struct rayT*, struct surfaceT*);
+typedef struct intersectionT (*intersectFnT)(struct rayT*, struct surfaceT*);
 
 typedef struct surfaceT {
     intersectFnT intersect_fn;

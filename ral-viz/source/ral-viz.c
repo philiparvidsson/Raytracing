@@ -16,14 +16,17 @@
 #include "base/common.h"
 #include "graphics/pixmap.h"
 #include "math/vector.h"
-#include "optics/ray.h"
-#include "optics/material.h"
+#include "optics/lightsources/directionallightsource.h"
+#include "optics/lightsources/pointlightsource.h"
 #include "optics/materials/ambientmaterial.h"
 #include "optics/materials/diffusematerial.h"
 #include "optics/raytracer.h"
-#include "optics/surface.h"
 #include "optics/surfaces/planesurface.h"
 #include "optics/surfaces/spheresurface.h"
+#include "optics/lightsource.h"
+#include "optics/material.h"
+#include "optics/ray.h"
+#include "optics/surface.h"
 #include "graphics.h"
 
 #include <stdio.h>
@@ -65,17 +68,26 @@ int main(int argc, char* argv[]) {
 
     raytracerT* raytracer = createRaytracer(720, 720);
 
-    surfaceT* sphere1 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 8.0f);
+    lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
+    lightSourceT* light_source2 = createPointLightSource((vec3) { 0.3f, 0.4f, 0.0f });
+
+    addLightSource(raytracer, light_source1);
+    addLightSource(raytracer, light_source2);
+
+    //surfaceT* sphere1 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 8.0f);
+    surfaceT* sphere1 = createSphereSurface((vec3) { 0.3f, 0.9f, 0.2f }, 0.1f);
     sphere1->material = createDiffuseMaterial((vec3) { 0.7f, 0.8f, 1.0f },
                                               (vec3) { 0.3f, 0.2f, 0.0f });
 
-    surfaceT* sphere2 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 0.5f);
-    sphere2->material = createDiffuseMaterial((vec3) { 0.7f, 0.7f, 0.7f },
-                                              (vec3) { 0.3f, 0.3f, 0.3f });
+    surfaceT* sphere2 = createSphereSurface((vec3) { -0.3f, 0.4f, 0.0f }, 0.3f);
+    sphere2->material = createDiffuseMaterial((vec3) { 0.2f, 0.2f, 0.2f },
+                                              (vec3) { 0.8f, 0.8f, 0.8f });
 
     surfaceT* plane = createPlaneSurface();
-    plane->material = createAmbientMaterial((vec3) { 0.9f, 0.3f, 0.3f });
+    plane->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
+                                            (vec3) { 0.9f, 0.3f, 0.3f });
 
+    sphere1->material = sphere2->material;
     addSurface(raytracer, sphere1);
     addSurface(raytracer, sphere2);
     addSurface(raytracer, plane);

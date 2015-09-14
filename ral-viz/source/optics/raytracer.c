@@ -4,6 +4,7 @@
 #include "base/debug.h"
 #include "graphics/pixmap.h"
 #include "math/vector.h"
+#include "optics/lightsource.h"
 #include "optics/surface.h"
 
 #include <float.h>
@@ -22,6 +23,11 @@ void freeRaytracer(raytracerT* raytracer) {
     free(raytracer);
 }
 
+void addLightSource(raytracerT* raytracer, lightSourceT* light_source) {
+    light_source->next = raytracer->light_sources;
+    raytracer->light_sources = light_source;
+}
+
 void addSurface(raytracerT* raytracer, surfaceT* surface) {
     assert(surface->material != NULL);
 
@@ -29,21 +35,29 @@ void addSurface(raytracerT* raytracer, surfaceT* surface) {
     raytracer->surfaces = surface;
 }
 
-intersectionT findIntersection(raytracerT* raytracer, rayT* ray) {
+intersectionT findIntersection(raytracerT* raytracer, rayT* ray, surfaceT* excluded_surface, float max_distance) {
     intersectionT intersection = { 0 };
 
     intersection.t = FLT_MAX;
 
     surfaceT* surface = raytracer->surfaces;
     while (surface) {
+        if (surface == excluded_surface) {
+            surface = surface->next;
+            continue;
+        }
+
         intersectionT intersect = surface->intersect_fn(ray, surface);
 
         // Find the intersection that is closest to the eye.
-        if ((intersect.t > 0.0f) && (intersect.t < intersection.t))
+        if ((intersect.t > 0.0f) && (intersect.t < max_distance) && (intersect.t < intersection.t))
             intersection = intersect;
 
         surface = surface->next;
     }
+
+    if (intersection.t == FLT_MAX)
+        intersection.t = 0.0f;
 
     return (intersection);
 }
@@ -63,9 +77,8 @@ void raytraceAll(raytracerT* raytracer) {
                                      -(y - half_height) / half_height,
                                      -1.0f };
 
-            intersectionT intersection = findIntersection(raytracer, &ray);
+            intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
-            // It's safe to test equality against FLT_MAX here.
             if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
                 // No intersection - background color.
                 setPixel(raytracer->pixmap, x, y, 0, 0, 0);
@@ -90,22 +103,33 @@ void raytraceLine(raytracerT* raytracer, int y) {
     ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
     for (int x = 0; x < width; x++) {
-        ray.direction = (vec3) {  (x - half_width ) / half_width,
-                                    -(y - half_height) / half_height,
-                                    -1.0f };
+        vec3 color = { 0 };
 
-        intersectionT intersection = findIntersection(raytracer, &ray);
+        for (int i = -4; i <= 4; i++) {
+            for (int j = -4; j <= 4; j++) {
+                float dx = 0.125f*i/half_width;
+                float dy = 0.125f*j/half_height;
+                ray.direction = (vec3) {  (x - half_width ) / half_width + dx,
+                                         -(y - half_height) / half_height + dy,
+                                         -1.0f };
 
-        // It's safe to test equality against FLT_MAX here.
-        if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
-            // No intersection - background color.
-            setPixel(raytracer->pixmap, x, y, 0, 0, 0);
-            continue;
+                intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
+
+                // It's safe to test equality against FLT_MAX here.
+                if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
+                    // No intersection.
+                    continue;
+                }
+
+                materialT* material = intersection.surface->material;
+
+                vec3 c = material->color_fn(raytracer, &intersection);
+                vec_add(&c, &color, &color);
+
+            }
         }
 
-        materialT* material = intersection.surface->material;
-        vec3       color    = material->color_fn(raytracer, &intersection);
-
+        vec_scale(&color, 1.0f/81.0f, &color);
         setPixelf(raytracer->pixmap, x, y, color.x, color.y, color.z);
     }
 }
