@@ -77,7 +77,7 @@ void tracerThread(void* arg) {
  *   printIntroMessage();
  *------------------------------------*/
 static void printIntroMessage(void) {
-    printf("ral-viz early build\nnothing to see here yet...\n\n");
+    printf("ral-viz early build\nnothing to see here yet...\ncuriously, \"nothing\" is precisely equal to mental_difference(phil, wannabe_nub)\n\n");
 }
 
 static inline float absf(float f) {
