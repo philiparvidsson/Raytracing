@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
     sphere1->material = createMixMaterial(
                             createReflectiveMaterial(1.0, 8),
                             createPhongMaterial((vec3) { 0.0f, 0.1f, 0.2f },
-                                                (vec3) { 0.0f, 0.5f, 1.0f },
+                                                (vec3) { 0.0f, 0.3f, 0.8f },
                                                 (vec3) { 1.0f, 1.0f, 1.0f }, 90.0f),
                             mixFunc);
     //sphere1->material = createReflectiveMaterial(1.0, 1);
@@ -192,8 +192,8 @@ int main(int argc, char* argv[]) {
     //                                        (vec3) { 0.8f, 0.8f, 0.8f }, 20.0f);
     sphere2->material = createMixMaterial(
                             createReflectiveMaterial(1.0, 8),
-                            createPhongMaterial((vec3) { 0.2f, 0.025f, 0.0f },
-                                                (vec3) { 0.8f, 0.12f, 0.0f },
+                            createPhongMaterial((vec3) { 0.2f, 0.05f, 0.0f },
+                                                (vec3) { 0.8f, 0.2f, 0.0f },
                                                 (vec3) { 4.0f, 4.0f, 4.0f }, 180.0f),
                             mixFunc);
     surfaceT* plane = createPlaneSurface();
