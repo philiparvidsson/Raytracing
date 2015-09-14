@@ -240,6 +240,9 @@ void updateDisplay(void) {
         TranslateMessage(&msg);
         DispatchMessageW(&msg);
     }
+
+    // @To-do: This is retarded.
+    Sleep(500);
 }
 
 /*--------------------------------------

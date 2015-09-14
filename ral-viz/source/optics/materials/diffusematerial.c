@@ -11,25 +11,29 @@ static vec3 calcDiffuseColor(raytracerT* raytracer, intersectionT* intersection)
 
     lightSourceT* light_source = raytracer->light_sources;
     while (light_source) {
-        lightRayT light_ray = light_source->light_fn(light_source, intersection);
+        float mult = 1.0f / light_source->num_samples;
 
-        rayT shadow_ray;
-        shadow_ray.origin = intersection->position;
-        shadow_ray.direction = light_ray.direction;
-        //vec_flip(&shadow_ray.direction, &shadow_ray.direction);
+        for (int i = 0; i < light_source->num_samples; i++) {
+            lightRayT light_ray = light_source->light_fn(light_source, intersection);
 
-        intersectionT occlusion_intersection = findIntersection(raytracer, &shadow_ray, intersection->surface, light_ray.distance);
+            rayT shadow_ray;
+            shadow_ray.origin = intersection->position;
+            shadow_ray.direction = light_ray.direction;
+            //vec_flip(&shadow_ray.direction, &shadow_ray.direction);
+
+            intersectionT occlusion_intersection = findIntersection(raytracer, &shadow_ray, intersection->surface, light_ray.distance);
         
-        if (occlusion_intersection.t <= 0.0f) {
-            float f = vec_dot(&intersection->normal, &light_ray.direction);
+            if (occlusion_intersection.t <= 0.0f) {
+                float f = vec_dot(&intersection->normal, &light_ray.direction);
 
-            f *= light_ray.intensity;
+                f *= light_ray.intensity;
 
-            f = clamp(f, 0.0f, 1.0f);
+                f = clamp(f, 0.0f, 1.0f);
 
-            color.x += f*material->diffuse_color.x;
-            color.y += f*material->diffuse_color.y;
-            color.z += f*material->diffuse_color.z;
+                color.x += f*material->diffuse_color.x*mult;
+                color.y += f*material->diffuse_color.y*mult;
+                color.z += f*material->diffuse_color.z*mult;
+            }
         }
 
 

@@ -105,10 +105,11 @@ void raytraceLine(raytracerT* raytracer, int y) {
     for (int x = 0; x < width; x++) {
         vec3 color = { 0 };
 
-        for (int i = -4; i <= 4; i++) {
-            for (int j = -4; j <= 4; j++) {
-                float dx = 0.125f*i/half_width;
-                float dy = 0.125f*j/half_height;
+        for (int i = -7; i <= 7; i++) {
+            for (int j = -7; j <= 7; j++) {
+                float dx = 0.5f*(i/half_width)/7.0f;
+                float dy = 0.5f*(j/half_height)/7.0f;
+
                 ray.direction = (vec3) {  (x - half_width ) / half_width + dx,
                                          -(y - half_height) / half_height + dy,
                                          -1.0f };
@@ -129,7 +130,53 @@ void raytraceLine(raytracerT* raytracer, int y) {
             }
         }
 
-        vec_scale(&color, 1.0f/81.0f, &color);
+        vec_scale(&color, 1.0f/255.0f, &color);
         setPixelf(raytracer->pixmap, x, y, color.x, color.y, color.z);
+    }
+}
+
+void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
+    int   width       = pixmapWidth (raytracer->pixmap);
+    int   height      = pixmapHeight(raytracer->pixmap);
+    float half_width  = (width  - 1) / 2.0f;
+    float half_height = (height - 1) / 2.0f;
+
+    rayT ray;
+    ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
+
+    for (int rx = x; rx < (x+w); rx++) {
+        vec3 color = { 0 };
+        for (int ry = y; ry < (y+h); ry++) {
+            if (rx < 0 || rx >= width ) continue;
+            if (ry < 0 || ry >= height) continue;
+
+            for (int i = -7; i <= 7; i++) {
+                for (int j = -7; j <= 7; j++) {
+                    float dx = 0.5f*(i/half_width)/7.0f;
+                    float dy = 0.5f*(j/half_height)/7.0f;
+
+                    ray.direction = (vec3) {  (rx - half_width ) / half_width  + dx,
+                                             -(ry - half_height) / half_height + dy,
+                                             -1.0f };
+
+                    intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
+
+                    // It's safe to test equality against FLT_MAX here.
+                    if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
+                        // No intersection.
+                        continue;
+                    }
+
+                    materialT* material = intersection.surface->material;
+
+                    vec3 c = material->color_fn(raytracer, &intersection);
+                    vec_add(&c, &color, &color);
+
+                }
+            }
+
+            vec_scale(&color, 1.0f/225.0f, &color);
+            setPixelf(raytracer->pixmap, rx, ry, color.x, color.y, color.z);
+        }
     }
 }

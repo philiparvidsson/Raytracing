@@ -63,6 +63,12 @@
     <ClCompile Include="source\optics\lightsources\pointlightsource.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\arch\win32\thread_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\optics\lightsources\spherelightsource.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\graphics.h">
@@ -120,6 +126,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\optics\lightsources\pointlightsource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\optics\lightsources\spherelightsource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

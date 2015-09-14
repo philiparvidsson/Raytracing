@@ -3,6 +3,8 @@
 lightSourceT* createLightSource(void) {
     lightSourceT* light_source = calloc(1, sizeof(lightSourceT));
 
+    light_source->num_samples = 1;
+
     return (light_source);
 }
 

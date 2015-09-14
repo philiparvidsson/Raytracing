@@ -20,5 +20,5 @@ void addSurface(struct raytracerT* raytracer, struct surfaceT* surface);
 struct intersectionT findIntersection(struct raytracerT* raytracer, struct rayT* ray, struct surfaceT* excluded_surface, float max_distance);
 void raytraceAll(struct raytracerT* raytracer);
 void raytraceLine(struct raytracerT* raytracer, int y);
-
+void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h);
 #endif // raytracer_h_

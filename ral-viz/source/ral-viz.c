@@ -18,6 +18,7 @@
 #include "math/vector.h"
 #include "optics/lightsources/directionallightsource.h"
 #include "optics/lightsources/pointlightsource.h"
+#include "optics/lightsources/spherelightsource.h"
 #include "optics/materials/ambientmaterial.h"
 #include "optics/materials/diffusematerial.h"
 #include "optics/raytracer.h"
@@ -28,12 +29,38 @@
 #include "optics/ray.h"
 #include "optics/surface.h"
 #include "graphics.h"
+#include "thread.h"
 
 #include <stdio.h>
 
 /*------------------------------------------------
  * FUNCTIONS
  *----------------------------------------------*/
+
+typedef struct tracerThreadArgsT {
+    raytracerT* raytracer;
+    int index;
+    int step;
+    int size;
+} tracerThreadArgsT;
+
+void tracerThread(void* arg) {
+    tracerThreadArgsT* args = arg;
+
+    int y = args->index * args->size;
+    while (y < pixmapHeight(args->raytracer->pixmap)) {
+        int x = 0;
+
+        while (x < pixmapWidth(args->raytracer->pixmap)) {
+            raytraceRect(args->raytracer, x, y, args->size, args->size);
+            x += args->size;
+        }
+
+        y += args->step * args->size;
+    }
+
+    free(args);
+}
 
 /*--------------------------------------
  * Function: printIntroMessage()
@@ -68,14 +95,15 @@ int main(int argc, char* argv[]) {
 
     raytracerT* raytracer = createRaytracer(720, 720);
 
-    lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
-    lightSourceT* light_source2 = createPointLightSource((vec3) { 0.3f, 0.4f, 0.0f });
+    //lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
+    lightSourceT* light_source2 = createSphereLightSource((vec3) { -0.4f, 1.6f, 0.7f }, 0.2f);
+    lightSourceT* light_source3 = createSphereLightSource((vec3) { 0.3f, 1.8f, -0.4f }, 0.1f);
 
-    addLightSource(raytracer, light_source1);
+    //addLightSource(raytracer, light_source1);
     addLightSource(raytracer, light_source2);
+    addLightSource(raytracer, light_source3);
 
-    //surfaceT* sphere1 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 8.0f);
-    surfaceT* sphere1 = createSphereSurface((vec3) { 0.3f, 0.9f, 0.2f }, 0.1f);
+    surfaceT* sphere1 = createSphereSurface((vec3) { 0.2f, 0.4f, 0.2f }, 0.1f);
     sphere1->material = createDiffuseMaterial((vec3) { 0.7f, 0.8f, 1.0f },
                                               (vec3) { 0.3f, 0.2f, 0.0f });
 
@@ -84,21 +112,33 @@ int main(int argc, char* argv[]) {
                                               (vec3) { 0.8f, 0.8f, 0.8f });
 
     surfaceT* plane = createPlaneSurface();
-    plane->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
+    plane->material = createDiffuseMaterial((vec3) { 0.2f, 0.0f, 0.0f },
                                             (vec3) { 0.9f, 0.3f, 0.3f });
+
+    surfaceT* sphere3 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 8.0f);
+    sphere3->material = createDiffuseMaterial((vec3) { 0.7f, 0.8f, 0.9f }, (vec3) { 0.3f, 0.2f, 0.1f });
+
 
     sphere1->material = sphere2->material;
     addSurface(raytracer, sphere1);
     addSurface(raytracer, sphere2);
+    addSurface(raytracer, sphere3);
     addSurface(raytracer, plane);
+
+
+    int num_threads = 4;
+    for (int i = 0; i < num_threads; i++) {
+        tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT));
+        args->index = i;
+        args->step = num_threads;
+        args->raytracer = raytracer;
+        args->size = 16;
+        createThread(tracerThread, args);
+    }
 
     int y = 0;
     while (windowIsOpen()) {
-        if (y < 720) {
-            raytraceLine(raytracer, y++);
-            blitPixmap(raytracer->pixmap, 0, 0);
-        }
-
+        blitPixmap(raytracer->pixmap, 0, 0);
         updateDisplay();
     }
 

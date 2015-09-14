@@ -10,6 +10,7 @@
 typedef struct lightRayT (*lightFnT)(struct lightSourceT* l, struct intersectionT* i);
 
 typedef struct lightSourceT {
+    int num_samples;
     lightFnT light_fn;
     void* data;
 

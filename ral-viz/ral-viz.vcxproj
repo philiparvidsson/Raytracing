@@ -90,12 +90,14 @@
   <ItemGroup>
     <ClCompile Include="source\arch\win32\graphics_win32.c" />
     <ClCompile Include="source\arch\win32\pixmap_win32.c" />
+    <ClCompile Include="source\arch\win32\thread_win32.c" />
     <ClCompile Include="source\arch\win32\utils_win32.c" />
     <ClCompile Include="source\base\common.c" />
     <ClCompile Include="source\base\debug.c" />
     <ClCompile Include="source\optics\lightsource.c" />
     <ClCompile Include="source\optics\lightsources\directionallightsource.c" />
     <ClCompile Include="source\optics\lightsources\pointlightsource.c" />
+    <ClCompile Include="source\optics\lightsources\spherelightsource.c" />
     <ClCompile Include="source\optics\material.c" />
     <ClCompile Include="source\optics\materials\ambientmaterial.c" />
     <ClCompile Include="source\optics\materials\diffusematerial.c" />
@@ -116,6 +118,7 @@
     <ClInclude Include="source\optics\lightsource.h" />
     <ClInclude Include="source\optics\lightsources\directionallightsource.h" />
     <ClInclude Include="source\optics\lightsources\pointlightsource.h" />
+    <ClInclude Include="source\optics\lightsources\spherelightsource.h" />
     <ClInclude Include="source\optics\material.h" />
     <ClInclude Include="source\optics\materials\ambientmaterial.h" />
     <ClInclude Include="source\optics\materials\diffusematerial.h" />
@@ -125,6 +128,7 @@
     <ClInclude Include="source\optics\surfaces\planesurface.h" />
     <ClInclude Include="source\optics\surfaces\spheresurface.h" />
     <ClInclude Include="source\math\vector.h" />
+    <ClInclude Include="source\thread.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="license.txt" />
