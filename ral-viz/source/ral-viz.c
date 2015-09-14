@@ -13,6 +13,7 @@
  * INCLUDES
  *----------------------------------------------*/
 
+#include "base/debug.h"
 #include "base/common.h"
 #include "graphics/pixmap.h"
 #include "math/vector.h"
@@ -34,35 +35,36 @@
 #include "graphics.h"
 #include "thread.h"
 
+#include <time.h>
 #include <stdio.h>
 
 /*------------------------------------------------
  * FUNCTIONS
  *----------------------------------------------*/
 
+typedef struct regionT {
+	int x;
+	int y;
+	int size;
+} regionT;
+
 typedef struct tracerThreadArgsT {
     raytracerT* raytracer;
-    int index;
-    int step;
-    int size;
+	regionT *regions;
+	bool running;
 } tracerThreadArgsT;
+
+int current_region; // global int, msdc hax :<
 
 void tracerThread(void* arg) {
     tracerThreadArgsT* args = arg;
 
-    int y = args->index * args->size;
-    while (y < pixmapHeight(args->raytracer->pixmap)) {
-        int x = 0;
+	while (current_region < 2025) {
+		regionT region = args->regions[current_region++];
+		raytraceRect(args->raytracer, region.x, region.y, region.size, region.size);		
+	}
 
-        while (x < pixmapWidth(args->raytracer->pixmap)) {
-            raytraceRect(args->raytracer, x, y, args->size, args->size);
-            x += args->size;
-        }
-
-        y += args->step * args->size;
-    }
-
-    free(args);
+	args->running = false;
 }
 
 /*--------------------------------------
@@ -209,21 +211,41 @@ int main(int argc, char* argv[]) {
     addSurface(raytracer, sphere3);
     addSurface(raytracer, plane);
 
+	// create regions
+	regionT *regions = malloc(sizeof(regionT) * 2025);
+	for (int i = 0; i < 45; i++) {
+		for (int j = 0; j < 45; j++) {
+			regions[i * 45 + j].x = j * 16;
+			regions[i * 45 + j].y = i * 16;
+			regions[i * 45 + j].size = 16;
+		}
+	}
 
-    int num_threads = 4;
+	clock_t t;
+	bool timing = true;
+	int num_threads = 4;
+	current_region = 0;
+
+	t = clock();
+	tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT) * num_threads);
     for (int i = 0; i < num_threads; i++) {
-        tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT));
-        args->index = i;
-        args->step = num_threads;
-        args->raytracer = raytracer;
-        args->size = 16;
-        createThread(tracerThread, args);
+		args[i].raytracer = raytracer;
+		args[i].regions = regions;
+		args[i].running = true;
+        createThread(tracerThread, &args[i]);
     }
 
     int y = 0;
     while (windowIsOpen()) {
         blitPixmap(raytracer->pixmap, 0, 0);
         updateDisplay();
+		if (timing && !args[0].running && !args[1].running && !args[2].running && !args[3].running) {
+			timing = false;
+			trace("%f", ((float)(clock()-t)) / CLOCKS_PER_SEC);
+
+			free(args);
+		}
+
     }
 
     free(raytracer);
