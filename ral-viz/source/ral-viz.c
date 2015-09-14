@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
     raytracerT* raytracer = createRaytracer(720, 720);
 
     //lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
-    lightSourceT* light_source1 = createSphereLightSource((vec3) { -0.3f, 0.2f, 0.4f }, 0.1f);
+    lightSourceT* light_source1 = createSphereLightSource((vec3) { -0.3f, 0.1f, 0.4f }, 0.05f);
     lightSourceT* light_source2 = createSphereLightSource((vec3) { -0.4f, 1.6f, 0.7f }, 0.2f);
     lightSourceT* light_source3 = createSphereLightSource((vec3) { 0.3f, 1.8f, -0.4f }, 0.1f);
 
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
     addLightSource(raytracer, light_source2);
     addLightSource(raytracer, light_source3);
 
-    surfaceT* sphere1 = createSphereSurface((vec3) { 0.3f, 0.2f, 0.3f }, 0.2f);
+    surfaceT* sphere1 = createSphereSurface((vec3) { 0.3f, 0.2f, 0.0f }, 0.2f);
     /*sphere1->material = createPhongMaterial((vec3) { 0.2f, 0.0f, 0.0f },
                                             (vec3) { 0.8f, 0.0f, 0.0f },
                                             (vec3) { 1.0f, 1.0f, 1.0f }, 50.0f);
