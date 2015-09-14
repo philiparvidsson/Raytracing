@@ -1,8 +1,9 @@
-#include "sphere_surface.h"
+#include "spheresurface.h"
 
 #include "base/common.h"
-#include "math/ray.h"
-#include "math/surface.h"
+#include "math/vector.h"
+#include "optics/ray.h"
+#include "optics/surface.h"
 
 #include <stdlib.h>
 
@@ -68,7 +69,17 @@ static intersectionT findSphereIntersection(rayT* ray, surfaceT* surface) {
     float d = -c/a + 0.25f*square(b/a);
 
     if (d >= 0.0f) {
-        float t = -sqrtf(d) - 0.5*(b/a);
+        float t0     = -sqrtf(d) - 0.5*(b/a);
+        float t1     =  sqrtf(d) - 0.5*(b/a);
+        float t      =  t0;
+        bool  inside =  false;
+
+        if (t <= 0.0f) {
+            // We're inside the sphere.
+            t      = t1;
+            inside = true;
+        }
+
         intersection.t        = t;
         intersection.position = (vec3) { ray->origin.x + t*ray->direction.x,
                                          ray->origin.y + t*ray->direction.y,
@@ -76,12 +87,15 @@ static intersectionT findSphereIntersection(rayT* ray, surfaceT* surface) {
         intersection.normal   = intersection.position;
         vec_sub(&intersection.normal, &sphere->center, &intersection.normal);
         vec_normalize(&intersection.normal, &intersection.normal);
+
+        if (inside)
+            vec_flip(&intersection.normal, &intersection.normal);
     }
 
     return (intersection);
 }
 
-surfaceT* createSphereSurface(void) {
+surfaceT* createSphereSurface(vec3 center, float radius) {
     surfaceT* surface = createSurface();
 
     surface->intersect_fn = findSphereIntersection;
@@ -89,8 +103,8 @@ surfaceT* createSphereSurface(void) {
 
     sphereSurfaceT* sphere = surface->data;
     
-    sphere->center = (vec3) { 0.0f, 0.0f, 0.0f };
-    sphere->radius = 0.5f;
+    sphere->center = center;
+    sphere->radius = radius;
 
     return (surface);
 }

@@ -1,8 +1,8 @@
-#include "plane_surface.h"
+#include "planesurface.h"
 
 #include "base/common.h"
-#include "math/ray.h"
-#include "math/surface.h"
+#include "optics/ray.h"
+#include "optics/surface.h"
 
 #include <stdlib.h>
 

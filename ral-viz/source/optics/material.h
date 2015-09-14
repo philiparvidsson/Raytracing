@@ -2,9 +2,9 @@
 #define material_h_
 
 #include "base/common.h"
-#include "graphics/raytracer.h"
-#include "math/ray.h"
 #include "math/vector.h"
+#include "optics/ray.h"
+#include "optics/raytracer.h"
 
 typedef vec3(*materialColorFn)(const struct raytracerT*, const struct intersectionT*);
 

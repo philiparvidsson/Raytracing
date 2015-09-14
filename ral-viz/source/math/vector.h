@@ -153,6 +153,9 @@
 #define vec_dot(a, b) vec_dot_((float*)a, (float*)b, \
                                min(vec_n(*a), vec_n(*b)))
 
+#define vec_flip(v, r) \
+    vec_flip_((float*)v, (float*)r, min(vec_n(*v), vec_n(*r)))
+
 /*--------------------------------------
  * Macro: vec_normalize(a, r)
  *
@@ -404,13 +407,18 @@ static inline float vec_dot_(const float* a, const float* b, int n) {
     return d;
 }
 
-static inline float vec_perp_dot(const vec2* a, const vec2* b) {
+static inline float vec2_perp_dot(const vec2* a, const vec2* b) {
     return (-a->y*b->x + a->x*b->y);
 }
 
-static inline float vec_perp(const vec2* v, vec2* r) {
+static inline void vec2_perp(const vec2* v, vec2* r) {
     r->x = -v->y;
     r->y = v->x;
+}
+
+static inline void vec_flip_(const float* v, float* r, int n) {
+    for (int i = 0; i < n; i++)
+        r[i] = -v[i];
 }
 
 /*--------------------------------------

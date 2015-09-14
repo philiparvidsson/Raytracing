@@ -1,10 +1,10 @@
-#ifndef plane_surface_h_
-#define plane_surface_h_
+#ifndef planesurface_h_
+#define planesurface_h_
 
 #include "base/common.h"
-#include "math/ray.h"
-#include "math/surface.h"
 #include "math/vector.h"
+#include "optics/ray.h"
+#include "optics/surface.h"
 
 typedef enum planeSurfaceTypeT {
     XYPlane,
@@ -18,4 +18,4 @@ typedef struct planeSurfaceT {
 
 surfaceT* createPlaneSurface(void);
 
-#endif // plane_surface_h_
+#endif // planesurface_h_

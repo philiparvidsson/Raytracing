@@ -2,8 +2,8 @@
 #define surface_h_
 
 #include "base/common.h"
-#include "math/material.h"
-#include "math/ray.h"
+#include "optics/material.h"
+#include "optics/ray.h"
 
 typedef struct intersectionT(*intersectFnT)(struct rayT*, struct surfaceT*);
 

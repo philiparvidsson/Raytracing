@@ -2,8 +2,8 @@
 #define ray_h_
 
 #include "base/common.h"
-#include "math/surface.h"
 #include "math/vector.h"
+#include "optics/surface.h"
 
 typedef struct rayT {
     vec3 origin;    // Origin.

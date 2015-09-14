@@ -93,14 +93,14 @@
     <ClCompile Include="source\arch\win32\utils_win32.c" />
     <ClCompile Include="source\base\common.c" />
     <ClCompile Include="source\base\debug.c" />
-    <ClCompile Include="source\math\material.c" />
-    <ClCompile Include="source\math\materials\ambient_material.c" />
-    <ClCompile Include="source\math\materials\diffuse_material.c" />
-    <ClCompile Include="source\math\surface.c" />
-    <ClCompile Include="source\math\surfaces\plane_surface.c" />
-    <ClCompile Include="source\math\surfaces\sphere_surface.c" />
+    <ClCompile Include="source\optics\material.c" />
+    <ClCompile Include="source\optics\materials\ambientmaterial.c" />
+    <ClCompile Include="source\optics\materials\diffusematerial.c" />
+    <ClCompile Include="source\optics\surface.c" />
+    <ClCompile Include="source\optics\surfaces\planesurface.c" />
+    <ClCompile Include="source\optics\surfaces\spheresurface.c" />
     <ClCompile Include="source\ral-viz.c" />
-    <ClCompile Include="source\graphics\raytracer.c" />
+    <ClCompile Include="source\optics\raytracer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\arch\win32\utils_win32.h" />
@@ -110,14 +110,16 @@
     <ClInclude Include="source\base\debug.h" />
     <ClInclude Include="source\graphics.h" />
     <ClInclude Include="source\graphics\pixmap.h" />
-    <ClInclude Include="source\math\material.h" />
-    <ClInclude Include="source\math\materials\ambient_material.h" />
-    <ClInclude Include="source\math\materials\diffuse_material.h" />
-    <ClInclude Include="source\math\ray.h" />
-    <ClInclude Include="source\graphics\raytracer.h" />
-    <ClInclude Include="source\math\surface.h" />
-    <ClInclude Include="source\math\surfaces\plane_surface.h" />
-    <ClInclude Include="source\math\surfaces\sphere_surface.h" />
+    <ClInclude Include="source\optics\lightsource.h" />
+    <ClInclude Include="source\optics\lightsources\directionallight.h" />
+    <ClInclude Include="source\optics\material.h" />
+    <ClInclude Include="source\optics\materials\ambientmaterial.h" />
+    <ClInclude Include="source\optics\materials\diffusematerial.h" />
+    <ClInclude Include="source\optics\ray.h" />
+    <ClInclude Include="source\optics\raytracer.h" />
+    <ClInclude Include="source\optics\surface.h" />
+    <ClInclude Include="source\optics\surfaces\planesurface.h" />
+    <ClInclude Include="source\optics\surfaces\spheresurface.h" />
     <ClInclude Include="source\math\vector.h" />
   </ItemGroup>
   <ItemGroup>
