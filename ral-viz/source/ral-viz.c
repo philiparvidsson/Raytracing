@@ -305,7 +305,7 @@ int main(int argc, char* argv[]) {
     clock_t t;
     bool render_running = true;
 
-    int num_threads = processorCount() * 2;
+    int num_threads = processorCount();
     trace("using %d render threads...", num_threads)
     current_region = 0;
 
