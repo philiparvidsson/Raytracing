@@ -260,8 +260,8 @@ int main(int argc, char* argv[]) {
 
     // create regions
     int sizeX, sizeY, width, height, num_regionsX, num_regionsY;
-    sizeX = 4;
-    sizeY = 4;
+    sizeX = 64;
+    sizeY = 64;
 
     width = pixmapWidth(raytracer->pixmap);
     height = pixmapHeight(raytracer->pixmap);
@@ -290,10 +290,8 @@ int main(int argc, char* argv[]) {
         int a = 0;
         int b = 0;
 
-        for (int j = 0; j < num_regionsX; j++) {
-            a += rand() % RAND_MAX;
-            b += rand() % RAND_MAX;
-        }
+        a = rand() % RAND_MAX;
+        b = rand() % RAND_MAX;
 
         a %= (num_regionsX * num_regionsY);
         b %= (num_regionsX * num_regionsY);
