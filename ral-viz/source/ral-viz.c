@@ -87,7 +87,7 @@ void tracerThreadReverse(void* arg) {
     tracerThreadArgsT* args = arg;
 
     int num_regions = args->number_of_regions;
-    while (current_region > 0) {
+    while (current_region_reverse >= 0) {
         regionT region = args->regions[current_region_reverse--];
         raytraceRect(args->raytracer, region.x, region.y, region.sizeX, region.sizeY);
     }
@@ -260,8 +260,8 @@ int main(int argc, char* argv[]) {
 
     // create regions
     int sizeX, sizeY, width, height, num_regionsX, num_regionsY;
-    sizeX = 4;
-    sizeY = 4;
+    sizeX = 8;
+    sizeY = 8;
 
     width = pixmapWidth(raytracer->pixmap);
     height = pixmapHeight(raytracer->pixmap);
