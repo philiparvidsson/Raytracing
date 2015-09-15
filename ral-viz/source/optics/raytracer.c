@@ -137,6 +137,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
         for (int ry = y; ry < (y+h); ry++) {
             if (rx < 0 || rx >= width ) continue;
             if (ry < 0 || ry >= height) continue;
+            
             vec3 color = { 0 };
 
             for (int n = 0; n < num_aperture_samples; n++) {
