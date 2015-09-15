@@ -38,7 +38,7 @@ void addSurface(raytracerT* raytracer, surfaceT* surface) {
 intersectionT findIntersection(raytracerT* raytracer, rayT* ray, surfaceT* excluded_surface, float max_distance) {
     intersectionT intersection = { 0 };
 
-    vec_normalize(&ray->direction, &ray->direction);
+    //vec_normalize(&ray->direction, &ray->direction);
 
     intersection.t = FLT_MAX;
 
@@ -83,13 +83,14 @@ void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h) {
 
     for (int rx = x; rx < (x + w); rx += 2) {
         for (int ry = y; ry < (y + h); ry += 2) {
+
             vec3 color = { 0 };
             if (rx < 0 || rx >= width) continue;
             if (ry < 0 || ry >= height) continue;
 
             ray.direction = (vec3) {  (rx - half_width ) / half_width,
-                                        -(ry - half_height) / half_height,
-                                        -1.0f };
+                                     -(ry - half_height) / half_height,
+                                     -1.0f };
 
             intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
@@ -128,10 +129,16 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
     vec3 origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
-    int filter_size = 32;
-    int num_aperture_samples = 4;
+    int filter_size = 5;
+    int num_aperture_samples = 192;
     float fstop = 1.0f/11.0f;
     float focal_dist = 1.0f;
+
+    for (int rx = x; rx < (x + w); rx++) {
+        for (int ry = y; ry < (y + h); ry++) {
+            setPixel(raytracer->pixmap, rx, ry, 255, 0, 255);
+        }
+    }
 
     for (int rx = x; rx < (x+w); rx++) {
         for (int ry = y; ry < (y+h); ry++) {
@@ -142,19 +149,18 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
             for (int n = 0; n < num_aperture_samples; n++) {
                 float a = (rand() / (float)RAND_MAX) * 3.141592653f * 2.0f;
-                float b = (rand() / (float)RAND_MAX) * fstop;
+                float b = sqrtf((rand() / (float)RAND_MAX));
 
-                float ax = cosf(a) * b;
-                float ay = sinf(a) * b;
+                float ax = cosf(a) * b * fstop;
+                float ay = sinf(a) * b * fstop;
 
                 for (int i = -filter_size; i <= filter_size; i++) {
                     for (int j = -filter_size; j <= filter_size; j++) {
-                        float fx = 0.5f*(i/half_width)/(float)filter_size;
-                        float fy = 0.5f*(j/half_height)/(float)filter_size;
-
+                        float fx = 0.5f*(i/half_width ) / (float)filter_size;
+                        float fy = 0.5f*(j/half_height) / (float)filter_size;
 
                         rayT ray;
-                        ray.origin = (vec3) { origin.x + ax, origin.y + ay, origin.z };
+                        ray.origin    = (vec3) { origin.x + ax, origin.y + ay, origin.z };
                         ray.direction = (vec3) {  (rx - half_width ) / half_width  + fx - ax/focal_dist,
                                                  -(ry - half_height) / half_height + fy - ay/focal_dist,
                                                  -1.0f };
