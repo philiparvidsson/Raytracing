@@ -184,8 +184,8 @@ static void renderRegion(raytracerT* raytracer, regionT region) {
     int k = 0;
     for (int i = 0; i < 64; i++) {
         for (int j = 0; j < 64; j++) {
-            if (region.x + i > pixmapWidth(raytracer->pixmap)) continue;
-            if (region.y + j > pixmapHeight(raytracer->pixmap)) continue;
+            if (region.x + i >= pixmapWidth(raytracer->pixmap)) continue;
+            if (region.y + j >= pixmapHeight(raytracer->pixmap)) continue;
 
             setPixel(raytracer->pixmap, region.x + i, region.y + j, 255, 0, 255);
 
@@ -203,7 +203,7 @@ static void renderRegion(raytracerT* raytracer, regionT region) {
     for (int i = 0; i < num_cpu; i++) {
         args[i].raytracer = raytracer;
         args[i].regions = regs;
-        args[i].number_of_regions = 64*64;
+        args[i].number_of_regions = k;
         args[i].thread_exit = false;
         createThread(tracerThread2, &args[i]);
         //printf("%d\n", 1337);
@@ -223,6 +223,8 @@ static void renderRegion(raytracerT* raytracer, regionT region) {
         if (done)
             break;
     }
+
+    free(args);
 }
 
 /*--------------------------------------
@@ -406,6 +408,7 @@ int main(int argc, char* argv[]) {
     }*/
 
     int y = 0;
+    bool lol = false;
     while (windowIsOpen()) {
         blitPixmap(raytracer->pixmap, 0, 0);
         updateDisplay();
@@ -428,6 +431,12 @@ int main(int argc, char* argv[]) {
 
         if (current_region < num_regionsX*num_regionsY) {
             renderRegion(raytracer, regions[current_region++]);
+        }
+        else {
+            if (!lol) {
+                trace("render time: %f.2s", ((float)(clock() - t)) / CLOCKS_PER_SEC);
+                lol = true;
+            }
         }
     }
 
