@@ -102,13 +102,14 @@ void raytraceLine(raytracerT* raytracer, int y) {
     rayT ray;
     ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
+    int filter_size = 1;
     for (int x = 0; x < width; x++) {
         vec3 color = { 0 };
 
-        for (int i = -7; i <= 7; i++) {
-            for (int j = -7; j <= 7; j++) {
-                float dx = 0.5f*(i/half_width)/7.0f;
-                float dy = 0.5f*(j/half_height)/7.0f;
+        for (int i = -filter_size; i <= filter_size; i++) {
+            for (int j = -filter_size; j <= filter_size; j++) {
+                float dx = 0.5f*(i / half_width) / (float)filter_size;
+                float dy = 0.5f*(j / half_height) / (float)filter_size;
 
                 ray.direction = (vec3) {  (x - half_width ) / half_width + dx,
                                          -(y - half_height) / half_height + dy,
@@ -152,16 +153,17 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     rayT ray;
     ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
+    int filter_size = 5;
     for (int rx = x; rx < (x+w); rx++) {
         vec3 color = { 0 };
         for (int ry = y; ry < (y+h); ry++) {
             if (rx < 0 || rx >= width ) continue;
             if (ry < 0 || ry >= height) continue;
 
-            for (int i = -7; i <= 7; i++) {
-                for (int j = -7; j <= 7; j++) {
-                    float dx = 0.5f*(i/half_width)/7.0f;
-                    float dy = 0.5f*(j/half_height)/7.0f;
+            for (int i = -filter_size; i <= filter_size; i++) {
+                for (int j = -filter_size; j <= filter_size; j++) {
+                    float dx = 0.5f*(i/half_width)/(float)filter_size;
+                    float dy = 0.5f*(j/half_height)/(float)filter_size;
 
                     ray.direction = (vec3) {  (rx - half_width ) / half_width  + dx,
                                              -(ry - half_height) / half_height + dy,
@@ -180,7 +182,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
                 }
             }
 
-            vec_scale(&color, 1.0f/225.0f, &color);
+            vec_scale(&color, 1.0f/((2*filter_size+1)*(2*filter_size+1)), &color);
 
             color.x = sqrtf(color.x);
             color.y = sqrtf(color.y);

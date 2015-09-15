@@ -4,10 +4,15 @@
 #include "math/vector.h"
 #include "optics/material.h"
 
+#include <float.h>
+__declspec(thread) static int depth = 0;
+
 static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, intersectionT* intersection) {
     diffuseMaterialT* difmat = material->data;
 
     vec3 color = difmat->ambient_color;
+
+    depth++;
 
     lightSourceT* light_source = raytracer->light_sources;
     while (light_source) {
@@ -39,6 +44,44 @@ static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, inters
 
         light_source = light_source->next;
     }
+
+    vec3 c3 = { 0 };
+    rayT ray = { 0 };
+
+
+    if (depth < 2) {
+        ray.origin = intersection->position;
+        int num_samples = 4;
+        for (int i = 0; i < num_samples; i++) {
+            //vec_reflect(&intersection->ray.direction, &intersection->normal, &ray.direction);
+            ray.direction = intersection->normal;
+
+            float x = 1.8f*((rand() / (float)RAND_MAX) - 0.5f);
+            float y = 1.8f*((rand() / (float)RAND_MAX) - 0.5f);
+            float z = 1.8f*((rand() / (float)RAND_MAX) - 0.5f);
+
+            ray.direction.x += x;
+            ray.direction.y += y;
+            ray.direction.z += z;
+
+            vec_normalize(&ray.direction, &ray.direction);
+
+            intersectionT intersection2 = findIntersection(raytracer, &ray, intersection->surface, FLT_MAX);
+
+            if (intersection2.t > 0.0f) {
+                vec3 c2 = calcFinalColor(raytracer, &intersection2);
+                vec_add(&c3, &c2, &c3);
+            }
+        }
+
+        vec_scale(&c3, 1.0f / num_samples, &color);
+
+        color.x = color.x * 0.98f + c3.x * 0.02f;
+        color.y = color.y * 0.98f + c3.y * 0.02f;
+        color.z = color.z * 0.98f + c3.z * 0.02f;
+    }
+
+    depth--;
 
     return (color);
 }

@@ -2,7 +2,7 @@
 
 #include <float.h>
 
-__declspec(thread) int depth = 0;
+__declspec(thread) static int depth = 0;
 
 
 static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, intersectionT* intersection) {
@@ -34,6 +34,8 @@ static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, inters
         ray.direction.x += x;
         ray.direction.y += y;
         ray.direction.z += z;
+
+        vec_normalize(&ray.direction, &ray.direction);
 
         intersectionT intersection2 = findIntersection(raytracer, &ray, intersection->surface, FLT_MAX);
 
