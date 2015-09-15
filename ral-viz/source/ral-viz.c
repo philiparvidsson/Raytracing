@@ -43,28 +43,40 @@
  *----------------------------------------------*/
 
 typedef struct regionT {
-	int x;
-	int y;
-	int size;
+    int x;
+    int y;
+    int size;
 } regionT;
 
 typedef struct tracerThreadArgsT {
     raytracerT* raytracer;
-	regionT *regions;
-	bool running;
+    regionT *regions;
+    bool running;
 } tracerThreadArgsT;
 
-int current_region; // global int, msdc hax :<
+int current_region = 0; // global int, msdc hax :<
+int current_region2 = 0; // global int, msdc hax :<
+
+void tracerThreadFast(void* arg) {
+    tracerThreadArgsT* args = arg;
+
+    while (current_region < 2025) {
+        regionT region = args->regions[current_region2++];
+        raytraceRectFast(args->raytracer, region.x, region.y, region.size, region.size);
+    }
+
+    args->running = false;
+}
 
 void tracerThread(void* arg) {
     tracerThreadArgsT* args = arg;
 
-	while (current_region < 2025) {
-		regionT region = args->regions[current_region++];
-		raytraceRect(args->raytracer, region.x, region.y, region.size, region.size);		
-	}
+    while (current_region < 2025) {
+        regionT region = args->regions[current_region++];
+        raytraceRect(args->raytracer, region.x, region.y, region.size, region.size);		
+    }
 
-	args->running = false;
+    args->running = false;
 }
 
 /*--------------------------------------
@@ -77,7 +89,7 @@ void tracerThread(void* arg) {
  *   printIntroMessage();
  *------------------------------------*/
 static void printIntroMessage(void) {
-    printf("ral-viz early build\nnothing to see here yet...\ncuriously, \"nothing\" is precisely equal to mental_difference(phil, wannabe_nub)\n\n");
+    printf("ral-viz early build\nnothing to see here yet...\ncuriously, \"nothing\" is precisely equal to mental_difference(phil, wannabe_nub)\nhowever, we shan't forget a more important function for understanding real world phenomena: matt_noob_level() which is not defined - but rather empirically observed - to always return infinity.\n");
 }
 
 static inline float absf(float f) {
@@ -216,40 +228,52 @@ int main(int argc, char* argv[]) {
     addSurface(raytracer, sphere4);
     addSurface(raytracer, plane);
 
-	// create regions
-	regionT *regions = malloc(sizeof(regionT) * 2025);
-	for (int i = 0; i < 45; i++) {
-		for (int j = 0; j < 45; j++) {
-			regions[i * 45 + j].x = j * 16;
-			regions[i * 45 + j].y = i * 16;
-			regions[i * 45 + j].size = 16;
-		}
-	}
+    // create regions
+    regionT *regions = malloc(sizeof(regionT) * 2025);
+    for (int i = 0; i < 45; i++) {
+        for (int j = 0; j < 45; j++) {
+            regions[i * 45 + j].x = j * 16;
+            regions[i * 45 + j].y = i * 16;
+            regions[i * 45 + j].size = 16;
+        }
+    }
 
-	clock_t t;
-	bool timing = true;
-	int num_threads = 4;
-	current_region = 0;
+    clock_t t;
+    bool timing = true;
+    int num_threads = 4;
+    current_region = 0;
 
-	t = clock();
-	tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT) * num_threads);
+    // code copy-paste-change hax by philster
+    tracerThreadArgsT* args2 = malloc(sizeof(tracerThreadArgsT) * num_threads);
     for (int i = 0; i < num_threads; i++) {
-		args[i].raytracer = raytracer;
-		args[i].regions = regions;
-		args[i].running = true;
+        args2[i].raytracer = raytracer;
+        args2[i].regions = regions;
+        args2[i].running = true;
+        createThread(tracerThreadFast, &args2[i]);
+    }
+
+    t = clock();
+    tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT) * num_threads);
+    for (int i = 0; i < num_threads; i++) {
+        args[i].raytracer = raytracer;
+        args[i].regions = regions;
+        args[i].running = true;
         createThread(tracerThread, &args[i]);
     }
+
+
 
     int y = 0;
     while (windowIsOpen()) {
         blitPixmap(raytracer->pixmap, 0, 0);
         updateDisplay();
-		if (timing && !args[0].running && !args[1].running && !args[2].running && !args[3].running) {
-			timing = false;
-			trace("%f", ((float)(clock()-t)) / CLOCKS_PER_SEC);
+        if (timing && !args[0].running && !args[1].running && !args[2].running && !args[3].running) {
+            timing = false;
+            trace("render time: %f.2s", ((float)(clock()-t)) / CLOCKS_PER_SEC);
 
-			free(args);
-		}
+            free(args);
+            free(args2);
+        }
 
     }
 

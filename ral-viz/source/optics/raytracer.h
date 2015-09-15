@@ -19,7 +19,6 @@ void addLightSource(struct raytracerT* raytracer, struct lightSourceT* light_sou
 void addSurface(struct raytracerT* raytracer, struct surfaceT* surface);
 struct intersectionT findIntersection(struct raytracerT* raytracer, struct rayT* ray, struct surfaceT* excluded_surface, float max_distance);
 vec3 calcFinalColor(struct raytracerT* raytracer, struct intersectionT* intersection);
-void raytraceAll(struct raytracerT* raytracer);
-void raytraceLine(struct raytracerT* raytracer, int y);
 void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h);
+void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h);
 #endif // raytracer_h_

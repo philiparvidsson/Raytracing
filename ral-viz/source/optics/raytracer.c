@@ -62,80 +62,6 @@ intersectionT findIntersection(raytracerT* raytracer, rayT* ray, surfaceT* exclu
     return (intersection);
 }
 
-void raytraceAll(raytracerT* raytracer) {
-    int   width       = pixmapWidth (raytracer->pixmap);
-    int   height      = pixmapHeight(raytracer->pixmap);
-    float half_width  = (width  - 1) / 2.0f;
-    float half_height = (height - 1) / 2.0f;
-
-    rayT ray;
-    ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
-
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            ray.direction = (vec3) {  (x - half_width ) / half_width,
-                                     -(y - half_height) / half_height,
-                                     -1.0f };
-
-            intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
-
-            if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
-                // No intersection - background color.
-                setPixel(raytracer->pixmap, x, y, 0, 0, 0);
-                continue;
-            }
-
-            materialT* material = intersection.surface->material;
-            vec3       color    = material->color_fn(material, raytracer, &intersection);
-
-            setPixelf(raytracer->pixmap, x, y, color.x, color.y, color.z);
-        }
-    }
-}
-
-void raytraceLine(raytracerT* raytracer, int y) {
-    int   width       = pixmapWidth (raytracer->pixmap);
-    int   height      = pixmapHeight(raytracer->pixmap);
-    float half_width  = (width  - 1) / 2.0f;
-    float half_height = (height - 1) / 2.0f;
-
-    rayT ray;
-    ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
-
-    int filter_size = 1;
-    for (int x = 0; x < width; x++) {
-        vec3 color = { 0 };
-
-        for (int i = -filter_size; i <= filter_size; i++) {
-            for (int j = -filter_size; j <= filter_size; j++) {
-                float dx = 0.5f*(i / half_width) / (float)filter_size;
-                float dy = 0.5f*(j / half_height) / (float)filter_size;
-
-                ray.direction = (vec3) {  (x - half_width ) / half_width + dx,
-                                         -(y - half_height) / half_height + dy,
-                                         -1.0f };
-
-                intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
-
-                // It's safe to test equality against FLT_MAX here.
-                if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
-                    // No intersection.
-                    continue;
-                }
-
-                materialT* material = intersection.surface->material;
-
-                vec3 c = material->color_fn(material, raytracer, &intersection);
-                vec_add(&c, &color, &color);
-
-            }
-        }
-
-        vec_scale(&color, 1.0f/255.0f, &color);
-        setPixelf(raytracer->pixmap, x, y, color.x, color.y, color.z);
-    }
-}
-
 vec3 calcFinalColor(raytracerT* raytracer, intersectionT* intersection) {
     materialT* material = intersection->surface->material;
 
@@ -143,6 +69,53 @@ vec3 calcFinalColor(raytracerT* raytracer, intersectionT* intersection) {
 
     return (color);
 }
+
+void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h) {
+    int   width = pixmapWidth(raytracer->pixmap);
+    int   height = pixmapHeight(raytracer->pixmap);
+    float half_width = (width - 1) / 2.0f;
+    float half_height = (height - 1) / 2.0f;
+
+    rayT ray;
+    ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
+
+    for (int rx = x; rx < (x + w); rx += 2) {
+        for (int ry = y; ry < (y + h); ry += 2) {
+            vec3 color = { 0 };
+            if (rx < 0 || rx >= width) continue;
+            if (ry < 0 || ry >= height) continue;
+
+            ray.direction = (vec3) {  (rx - half_width ) / half_width,
+                                        -(ry - half_height) / half_height,
+                                        -1.0f };
+
+            intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
+
+            if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
+                // No intersection.
+                continue;
+            }
+
+            vec3 c = calcFinalColor(raytracer, &intersection);
+            vec_add(&c, &color, &color);
+
+            color.x = sqrtf(color.x);
+            color.y = sqrtf(color.y);
+            color.z = sqrtf(color.z);
+
+            int rx1 = rx;
+            int rx2 = rx + 1;
+            int ry1 = ry;
+            int ry2 = ry+1;
+
+            if ((rx1 >= 0 && rx1 < width) && (ry1 >= 0 && ry1 < height)) setPixelf(raytracer->pixmap, rx1, ry1, color.x, color.y, color.z);
+            if ((rx2 >= 0 && rx2 < width) && (ry1 >= 0 && ry1 < height)) setPixelf(raytracer->pixmap, rx2, ry1, color.x, color.y, color.z);
+            if ((rx1 >= 0 && rx1 < width) && (ry2 >= 0 && ry2 < height)) setPixelf(raytracer->pixmap, rx1, ry2, color.x, color.y, color.z);
+            if ((rx2 >= 0 && rx2 < width) && (ry2 >= 0 && ry2 < height)) setPixelf(raytracer->pixmap, rx2, ry2, color.x, color.y, color.z);
+        }
+    }
+}
+
 
 void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     int   width       = pixmapWidth (raytracer->pixmap);
@@ -153,12 +126,12 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     rayT ray;
     ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
-    int filter_size = 5;
+    int filter_size = 4;
     for (int rx = x; rx < (x+w); rx++) {
-        vec3 color = { 0 };
         for (int ry = y; ry < (y+h); ry++) {
             if (rx < 0 || rx >= width ) continue;
             if (ry < 0 || ry >= height) continue;
+            vec3 color = { 0 };
 
             for (int i = -filter_size; i <= filter_size; i++) {
                 for (int j = -filter_size; j <= filter_size; j++) {
@@ -171,7 +144,6 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
                     intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
-                    // It's safe to test equality against FLT_MAX here.
                     if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
                         // No intersection.
                         continue;
