@@ -136,6 +136,9 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
     for (int rx = x; rx < (x + w); rx++) {
         for (int ry = y; ry < (y + h); ry++) {
+            if (rx < 0 || rx >= width) continue;
+            if (ry < 0 || ry >= height) continue;
+
             setPixel(raytracer->pixmap, rx, ry, 255, 0, 255);
         }
     }
