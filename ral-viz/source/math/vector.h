@@ -448,8 +448,8 @@ static inline void vec_flip_(const float* v, float* r, int n) {
 static inline void vec_normalize_(const float* v, float* r, int n) {
     float d = vec_dot_(v, v, n);
 
-	if (d > 0.0f) d = 1/sqrt(d);
-	else          d = 1.0f;
+    if (d > 0.0f) d = 1/sqrt(d);
+    else          d = 1.0f;
 
     for (int i = 0; i < n; i++)
         r[i] = v[i] * d;
