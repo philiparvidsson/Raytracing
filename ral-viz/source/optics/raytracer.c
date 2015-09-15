@@ -127,7 +127,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     vec3 origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
     int filter_size = 7;
-    int num_aperture_samples = 16;
+    int num_aperture_samples = 32;
     float aperture_size = 0.05f;
     float focal_dist = 1.0f;
 
@@ -141,8 +141,8 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
                 float a = (rand() / (float)RAND_MAX) * 3.141592653f * 2.0f;
                 float b = (rand() / (float)RAND_MAX) * aperture_size;
 
-                float ax = cosf(a) * aperture_size;
-                float ay = sinf(a) * aperture_size;
+                float ax = cosf(a) * b;
+                float ay = sinf(a) * b;
 
                 for (int i = -filter_size; i <= filter_size; i++) {
                     for (int j = -filter_size; j <= filter_size; j++) {
