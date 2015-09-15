@@ -260,8 +260,8 @@ int main(int argc, char* argv[]) {
 
     // create regions
     int sizeX, sizeY, width, height, num_regionsX, num_regionsY;
-    sizeX = 16;
-    sizeY = 16;
+    sizeX = 4;
+    sizeY = 4;
 
     width = pixmapWidth(raytracer->pixmap);
     height = pixmapHeight(raytracer->pixmap);
@@ -286,9 +286,17 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    for (int i = 0; i < 5000; i++) {
-        int a = rand() % (num_regionsX * num_regionsY);
-        int b = rand() % (num_regionsX * num_regionsY);
+    for (int i = 0; i < num_regionsX*num_regionsY; i++) {
+        int a = 0;
+        int b = 0;
+
+        for (int j = 0; j < num_regionsX; j++) {
+            a += rand() % RAND_MAX;
+            b += rand() % RAND_MAX;
+        }
+
+        a %= (num_regionsX * num_regionsY);
+        b %= (num_regionsX * num_regionsY);
 
         regionT reg = regions[a];
         regions[a] = regions[b];
@@ -299,7 +307,7 @@ int main(int argc, char* argv[]) {
     clock_t t;
     bool render_running = true;
 
-    int num_threads = processorCount();
+    int num_threads = processorCount() * 2;
     trace("using %d render threads...", num_threads)
     current_region = 0;
 
