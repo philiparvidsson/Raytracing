@@ -13,16 +13,6 @@ struct threadT {
     void* arg;
 };
 
-int GetProcessorCount() {
-	LPSYSTEM_INFO _info;
-	GetSystemInfo(_info);
-
-	int retval = (int)_info->dwNumberOfProcessors;
-	free(_info);
-
-	return retval;
-}
-
 static DWORD threadFunc(LPVOID arg) {
     threadT* thread = arg;
 
@@ -45,6 +35,15 @@ void destroyThread(threadT* thread) {
     TerminateThread(thread->id, 1);
 
     free(thread);
+}
+
+int processorCount(void) {
+    SYSTEM_INFO _info;
+    GetSystemInfo(&_info);
+
+    int retval = (int)_info.dwNumberOfProcessors;
+
+    return retval;
 }
 
 #endif // _WIN32

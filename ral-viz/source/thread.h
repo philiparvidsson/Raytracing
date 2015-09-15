@@ -10,4 +10,6 @@ int GetProcessorCount();
 threadT* createThread(threadFnT thread_fn, void* arg);
 void destroyThread(threadT* thread);
 
+int processorCount(void);
+
 #endif // thread_h_

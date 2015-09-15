@@ -57,7 +57,7 @@ typedef struct tracerThreadArgsT {
 int current_region = 0; // global int, msdc hax :<
 int current_region2 = 0; // global int, msdc hax :<
 
-void tracerThreadFast(void* arg) {
+/*void tracerThreadFast(void* arg) {
     tracerThreadArgsT* args = arg;
 
     while (current_region < 2025) {
@@ -66,14 +66,14 @@ void tracerThreadFast(void* arg) {
     }
 
     args->running = false;
-}
+}*/
 
 void tracerThread(void* arg) {
     tracerThreadArgsT* args = arg;
 
     while (current_region < 2025) {
         regionT region = args->regions[current_region++];
-        raytraceRect(args->raytracer, region.x, region.y, region.size, region.size);		
+        raytraceRectFast(args->raytracer, region.x, region.y, region.size, region.size);		
     }
 
     args->running = false;
@@ -241,8 +241,8 @@ int main(int argc, char* argv[]) {
     clock_t t;
     bool timing = true;
 
-	int num_threads = GetProcessorCount();
-	trace("%d", num_threads)
+    int num_threads = processorCount();
+    trace("%d", num_threads)
     current_region = 0;
 
     // code copy-paste-change hax by philster
