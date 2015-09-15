@@ -288,17 +288,14 @@ int main(int argc, char* argv[]) {
 
     for (int i = 0; i < num_regionsX*num_regionsY; i++) {
         int a = 0;
-        int b = 0;
 
         a = rand() % RAND_MAX;
-        b = rand() % RAND_MAX;
 
         a %= (num_regionsX * num_regionsY);
-        b %= (num_regionsX * num_regionsY);
 
-        regionT reg = regions[a];
-        regions[a] = regions[b];
-        regions[b] = reg;
+        regionT reg = regions[i];
+        regions[i] = regions[a];
+        regions[a] = reg;
     }
 
 
