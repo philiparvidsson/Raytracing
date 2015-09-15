@@ -75,7 +75,7 @@ static intersectionT findSphereIntersection(rayT* ray, surfaceT* surface) {
         bool  inside =  false;
 
         if (t <= 0.0f) {
-            // We're inside the sphere.
+            // We're inside the sphere, or the sphere is behind us.
             t      = t1;
             inside = true;
         }
