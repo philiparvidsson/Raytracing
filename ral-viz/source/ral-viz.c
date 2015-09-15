@@ -76,11 +76,7 @@ void tracerThread(void* arg) {
 	int num_regions = args->number_of_regions;
 	while (current_region < num_regions) {
         regionT region = args->regions[current_region++];
-<<<<<<< .mine
         raytraceRect(args->raytracer, region.x, region.y, region.sizeX, region.sizeY);
-=======
-        raytraceRect(args->raytracer, region.x, region.y, region.size, region.size);		
->>>>>>> .r39
     }
 
 	args->thread_exit = true;
@@ -251,8 +247,8 @@ int main(int argc, char* argv[]) {
 
 	// create regions
 	int sizeX, sizeY, width, height, num_regionsX, num_regionsY;
-	sizeX = 240;
-	sizeY = 1;
+	sizeX = 16;
+	sizeY = 16;
 
 	width = pixmapWidth(raytracer->pixmap);
 	height = pixmapHeight(raytracer->pixmap);
