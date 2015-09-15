@@ -123,38 +123,53 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     float half_width  = (width  - 1) / 2.0f;
     float half_height = (height - 1) / 2.0f;
 
-    rayT ray;
-    ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
-    int filter_size = 1;
+    vec3 origin = (vec3) { 0.0f, 0.35f, 1.0f };
+
+    int filter_size = 7;
+    int num_aperture_samples = 16;
+    float aperture_size = 0.05f;
+    float focal_dist = 1.0f;
+
     for (int rx = x; rx < (x+w); rx++) {
         for (int ry = y; ry < (y+h); ry++) {
             if (rx < 0 || rx >= width ) continue;
             if (ry < 0 || ry >= height) continue;
             vec3 color = { 0 };
 
-            for (int i = -filter_size; i <= filter_size; i++) {
-                for (int j = -filter_size; j <= filter_size; j++) {
-                    float dx = 0.5f*(i/half_width)/(float)filter_size;
-                    float dy = 0.5f*(j/half_height)/(float)filter_size;
+            for (int n = 0; n < num_aperture_samples; n++) {
+                float a = (rand() / (float)RAND_MAX) * 3.141592653f * 2.0f;
+                float b = (rand() / (float)RAND_MAX) * aperture_size;
 
-                    ray.direction = (vec3) {  (rx - half_width ) / half_width  + dx,
-                                             -(ry - half_height) / half_height + dy,
-                                             -1.0f };
+                float ax = cosf(a) * aperture_size;
+                float ay = sinf(a) * aperture_size;
 
-                    intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
+                for (int i = -filter_size; i <= filter_size; i++) {
+                    for (int j = -filter_size; j <= filter_size; j++) {
+                        float fx = 0.5f*(i/half_width)/(float)filter_size;
+                        float fy = 0.5f*(j/half_height)/(float)filter_size;
 
-                    if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
-                        // No intersection.
-                        continue;
+
+                        rayT ray;
+                        ray.origin = (vec3) { origin.x + ax, origin.y + ay, origin.z };
+                        ray.direction = (vec3) {  (rx - half_width ) / half_width  + fx - ax/focal_dist,
+                                                 -(ry - half_height) / half_height + fy - ay/focal_dist,
+                                                 -1.0f };
+
+                        intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
+
+                        if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
+                            // No intersection.
+                            continue;
+                        }
+
+                        vec3 c = calcFinalColor(raytracer, &intersection);
+                        vec_add(&c, &color, &color);
                     }
-
-                    vec3 c = calcFinalColor(raytracer, &intersection);
-                    vec_add(&c, &color, &color);
                 }
             }
 
-            vec_scale(&color, 1.0f/((2*filter_size+1)*(2*filter_size+1)), &color);
+            vec_scale(&color, 1.0f/(num_aperture_samples*(2*filter_size+1)*(2*filter_size+1)), &color);
 
             color.x = sqrtf(color.x);
             color.y = sqrtf(color.y);
