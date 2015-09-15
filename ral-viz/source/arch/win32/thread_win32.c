@@ -38,12 +38,10 @@ void destroyThread(threadT* thread) {
 }
 
 int processorCount(void) {
-    SYSTEM_INFO _info;
-    GetSystemInfo(&_info);
+    SYSTEM_INFO si;
+    GetSystemInfo(&si);
 
-    int retval = (int)_info.dwNumberOfProcessors;
-
-    return retval;
+    return (si.dwNumberOfProcessors);
 }
 
 #endif // _WIN32
