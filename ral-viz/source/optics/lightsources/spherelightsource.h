@@ -8,8 +8,9 @@
 typedef struct sphereLightSourceT {
     vec3 position;
     float radius;
+    float intensity;
 } sphereLightSourceT;
 
-lightSourceT* createSphereLightSource(vec3 position, float radius);
+lightSourceT* createSphereLightSource(vec3 position, float radius, float intensity);
 
 #endif // spherelightsource_h_

@@ -34,20 +34,21 @@ static lightRayT calcLight(lightSourceT* l, intersectionT* i) {
 
     vec_normalize(&light_ray.direction, &light_ray.direction);
 
-    light_ray.intensity = 1.0f / distance_squared;
+    light_ray.intensity = sphere->intensity / distance_squared;
 
     return (light_ray);
 }
 
-lightSourceT* createSphereLightSource(vec3 position, float radius) {
+lightSourceT* createSphereLightSource(vec3 position, float radius, float intensity) {
     lightSourceT* light_source = createLightSource();
 
     light_source->num_samples = 1;
     light_source->light_fn    = calcLight;
     light_source->data        = malloc(sizeof(sphereLightSourceT));
 
-    ((sphereLightSourceT*)light_source->data)->position = position;
-    ((sphereLightSourceT*)light_source->data)->radius = radius;
+    ((sphereLightSourceT*)light_source->data)->position  = position;
+    ((sphereLightSourceT*)light_source->data)->radius    = radius;
+    ((sphereLightSourceT*)light_source->data)->intensity = intensity;
 
     return (light_source);
 }
