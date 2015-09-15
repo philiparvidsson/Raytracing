@@ -323,7 +323,7 @@ int main(int argc, char* argv[]) {
     // FINAL RENDER PASS
     render_running = true;
     
-    current_region = num_regionsX * num_regionsY / 2;
+    current_region = 0;
     current_region_reverse = current_region - 1;
 
     t = clock();
