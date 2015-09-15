@@ -244,7 +244,7 @@ int main(int argc, char* argv[]) {
     bool timing = true;
 
     int num_threads = processorCount();
-    trace("%d", num_threads)
+    trace("using %d render threads...", num_threads)
     current_region = 0;
 
     // code copy-paste-change hax by philster
