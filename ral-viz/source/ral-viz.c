@@ -57,6 +57,7 @@ typedef struct tracerThreadArgsT {
 } tracerThreadArgsT;
 
 int current_region; // global int, msdc hax :<
+int current_region_lol; // global int, msdc hax :<
 int current_region_reverse;
 
 void tracerThreadFast(void* arg) {
@@ -77,6 +78,18 @@ void tracerThread(void* arg) {
     int num_regions = args->number_of_regions;
     while (current_region < num_regions) {
         regionT region = args->regions[current_region++];
+        raytraceRect(args->raytracer, region.x, region.y, region.sizeX, region.sizeY);
+    }
+
+    args->thread_exit = true;
+}
+
+void tracerThread2(void* arg) {
+    tracerThreadArgsT* args = arg;
+
+    int num_regions = args->number_of_regions;
+    while (current_region_lol < num_regions) {
+        regionT region = args->regions[current_region_lol++];
         raytraceRect(args->raytracer, region.x, region.y, region.sizeX, region.sizeY);
     }
 
@@ -159,6 +172,57 @@ float mixFunc(materialT* material, raytracerT* raytracer, intersectionT* interse
     float mix = powf(clamp(vec_dot(&r, &v), 0.0f, 1.0f), 2.5f);
 
     return (0.4f * clamp(mix, 0.0f, 1.0f) + 0.03f);
+}
+
+
+
+static void renderRegion(raytracerT* raytracer, regionT region) {
+    int num_cpu = processorCount();
+
+    regionT* regs = malloc(sizeof(regionT) * 64 * 64);
+
+    int k = 0;
+    for (int i = 0; i < 64; i++) {
+        for (int j = 0; j < 64; j++) {
+            if (region.x + i > pixmapWidth(raytracer->pixmap)) continue;
+            if (region.y + j > pixmapHeight(raytracer->pixmap)) continue;
+
+            setPixel(raytracer->pixmap, region.x + i, region.y + j, 255, 0, 255);
+
+            regs[k].sizeX = 1;
+            regs[k].sizeY = 1;
+            regs[k].x = region.x + i;
+            regs[k].y = region.y + j;
+            k++;
+        }
+    }
+
+    tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT) * num_cpu);
+
+    current_region_lol = 0;
+    for (int i = 0; i < num_cpu; i++) {
+        args[i].raytracer = raytracer;
+        args[i].regions = regs;
+        args[i].number_of_regions = 64*64;
+        args[i].thread_exit = false;
+        createThread(tracerThread2, &args[i]);
+        //printf("%d\n", 1337);
+    }
+
+    while (true) {
+        blitPixmap(raytracer->pixmap, 0, 0);
+        updateDisplay();
+
+        bool done = true;
+
+        for (int i = 0; i < num_cpu; i++) {
+            if (!args[i].thread_exit)
+                done = false;
+        }
+
+        if (done)
+            break;
+    }
 }
 
 /*--------------------------------------
@@ -287,17 +351,11 @@ int main(int argc, char* argv[]) {
     }
 
     for (int i = 0; i < num_regionsX*num_regionsY; i++) {
-        int a = 0;
-
-        a = rand() % RAND_MAX;
-
-        a %= (num_regionsX * num_regionsY);
-
+        int j = rand() % (num_regionsX*num_regionsY);
         regionT reg = regions[i];
-        regions[i] = regions[a];
-        regions[a] = reg;
+        regions[i] = regions[j];
+        regions[j] = reg;
     }
-
 
     clock_t t;
     bool render_running = true;
@@ -339,20 +397,20 @@ int main(int argc, char* argv[]) {
     current_region_reverse = current_region - 1;
 
     t = clock();
-    for (int i = 0; i < num_threads; i++) {
+    /*for (int i = 0; i < num_threads; i++) {
         args[i].raytracer = raytracer;
         args[i].regions = regions;
         args[i].number_of_regions = num_regionsX*num_regionsY;
         args[i].thread_exit = false;
         createThread(tracerThread, &args[i]);
-    }
+    }*/
 
     int y = 0;
     while (windowIsOpen()) {
         blitPixmap(raytracer->pixmap, 0, 0);
         updateDisplay();
 
-        if (render_running) {
+        /*if (render_running) {
             bool threads_exited = true;
             for (int i = 0; i < num_threads; i++)
                 if (!args[i].thread_exit) {
@@ -366,6 +424,10 @@ int main(int argc, char* argv[]) {
 
                 free(args);
             }
+        }*/
+
+        if (current_region < num_regionsX*num_regionsY) {
+            renderRegion(raytracer, regions[current_region++]);
         }
     }
 

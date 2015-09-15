@@ -119,7 +119,6 @@ void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h) {
     }
 }
 
-
 void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     int   width       = pixmapWidth (raytracer->pixmap);
     int   height      = pixmapHeight(raytracer->pixmap);
@@ -134,14 +133,14 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     float fstop = 1.0f/22.0f;
     float focal_dist = 1.0f;
 
-    for (int rx = x; rx < (x + w); rx++) {
+    /*for (int rx = x; rx < (x + w); rx++) {
         for (int ry = y; ry < (y + h); ry++) {
             if (rx < 0 || rx >= width) continue;
             if (ry < 0 || ry >= height) continue;
 
-            setPixel(raytracer->pixmap, rx, ry, 255, 0, 255);
+            setPixel(raytracer->pixmap, rx, ry, 255, 255, 255);
         }
-    }
+    }*/
 
     for (int rx = x; rx < (x+w); rx++) {
         for (int ry = y; ry < (y+h); ry++) {
