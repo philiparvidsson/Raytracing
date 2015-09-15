@@ -286,6 +286,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    for (int i = 0; i < 5000; i++) {
+        int a = rand() % (num_regionsX * num_regionsY);
+        int b = rand() % (num_regionsX * num_regionsY);
+
+        regionT reg = regions[a];
+        regions[a] = regions[b];
+        regions[b] = reg;
+    }
+
 
     clock_t t;
     bool render_running = true;
