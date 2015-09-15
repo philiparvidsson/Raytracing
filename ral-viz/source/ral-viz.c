@@ -56,7 +56,8 @@ typedef struct tracerThreadArgsT {
     bool thread_exit;
 } tracerThreadArgsT;
 
-int current_region = 0; // global int, msdc hax :<
+int current_region; // global int, msdc hax :<
+int current_region_reverse;
 
 void tracerThreadFast(void* arg) {
     tracerThreadArgsT* args = arg;
@@ -76,6 +77,18 @@ void tracerThread(void* arg) {
     int num_regions = args->number_of_regions;
     while (current_region < num_regions) {
         regionT region = args->regions[current_region++];
+        raytraceRect(args->raytracer, region.x, region.y, region.sizeX, region.sizeY);
+    }
+
+    args->thread_exit = true;
+}
+
+void tracerThreadReverse(void* arg) {
+    tracerThreadArgsT* args = arg;
+
+    int num_regions = args->number_of_regions;
+    while (current_region > 0) {
+        regionT region = args->regions[current_region_reverse--];
         raytraceRect(args->raytracer, region.x, region.y, region.sizeX, region.sizeY);
     }
 
@@ -307,8 +320,11 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    current_region = 0;
+    // FINAL RENDER PASS
     render_running = true;
+    
+    current_region = num_regionsX * num_regionsY / 2;
+    current_region_reverse = current_region - 1;
 
     t = clock();
     for (int i = 0; i < num_threads; i++) {
@@ -316,7 +332,10 @@ int main(int argc, char* argv[]) {
         args[i].regions = regions;
         args[i].number_of_regions = num_regionsX*num_regionsY;
         args[i].thread_exit = false;
-        createThread(tracerThread, &args[i]);
+        if (i % 2 == 0)
+            createThread(tracerThread, &args[i]);
+        else
+            createThread(tracerThreadReverse, &args[i]);
     }
 
     int y = 0;
