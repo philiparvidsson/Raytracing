@@ -38,6 +38,8 @@ void addSurface(raytracerT* raytracer, surfaceT* surface) {
 intersectionT findIntersection(raytracerT* raytracer, rayT* ray, surfaceT* excluded_surface, float max_distance) {
     intersectionT intersection = { 0 };
 
+    vec_normalize(&ray->direction, &ray->direction);
+
     intersection.t = FLT_MAX;
 
     surfaceT* surface = raytracer->surfaces;
@@ -126,9 +128,9 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
     vec3 origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
-    int filter_size = 7;
-    int num_aperture_samples = 32;
-    float aperture_size = 0.05f;
+    int filter_size = 32;
+    int num_aperture_samples = 4;
+    float fstop = 1.0f/11.0f;
     float focal_dist = 1.0f;
 
     for (int rx = x; rx < (x+w); rx++) {
@@ -139,7 +141,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
             for (int n = 0; n < num_aperture_samples; n++) {
                 float a = (rand() / (float)RAND_MAX) * 3.141592653f * 2.0f;
-                float b = (rand() / (float)RAND_MAX) * aperture_size;
+                float b = (rand() / (float)RAND_MAX) * fstop;
 
                 float ax = cosf(a) * b;
                 float ay = sinf(a) * b;
@@ -155,7 +157,6 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
                         ray.direction = (vec3) {  (rx - half_width ) / half_width  + fx - ax/focal_dist,
                                                  -(ry - half_height) / half_height + fy - ay/focal_dist,
                                                  -1.0f };
-
                         intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
                         if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {

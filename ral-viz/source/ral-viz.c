@@ -223,9 +223,14 @@ int main(int argc, char* argv[]) {
     sphere4->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
                                               (vec3) { 1.0f, 0.0f, 0.0f });
 
-    surfaceT* sphere5 = createSphereSurface((vec3) { 0.5f, 0.3f, 0.8f }, 0.3f);
-    sphere5->material = createPhongMaterial((vec3) { 0.2f, 0.0f, 0.0f },
-                                            (vec3) { 0.9f, 0.0f, 0.0f },
+    surfaceT* sphere5 = createSphereSurface((vec3) { 0.5f, 0.2f, 0.45f }, 0.2f);
+    sphere5->material = createPhongMaterial((vec3) { 0.2f, 0.15f, 0.0f },
+                                            (vec3) { 0.9f, 0.7f, 0.3f },
+                                            (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
+
+    surfaceT* sphere6 = createSphereSurface((vec3) { -0.4f, 0.1f, 0.35f }, 0.1f);
+    sphere6->material = createPhongMaterial((vec3) { 0.1f, 0.3f, 0.1f },
+                                            (vec3) { 0.3f, 0.9f, 0.3f },
                                             (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
 
     //sphere1->material = sphere2->material;
@@ -234,6 +239,7 @@ int main(int argc, char* argv[]) {
     addSurface(raytracer, sphere3);
     addSurface(raytracer, sphere4);
     addSurface(raytracer, sphere5);
+    addSurface(raytracer, sphere6);
     addSurface(raytracer, plane);
 
     // create regions
