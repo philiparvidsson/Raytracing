@@ -260,8 +260,8 @@ int main(int argc, char* argv[]) {
 
     // create regions
     int sizeX, sizeY, width, height, num_regionsX, num_regionsY;
-    sizeX = 8;
-    sizeY = 8;
+    sizeX = 16;
+    sizeY = 16;
 
     width = pixmapWidth(raytracer->pixmap);
     height = pixmapHeight(raytracer->pixmap);
@@ -332,10 +332,7 @@ int main(int argc, char* argv[]) {
         args[i].regions = regions;
         args[i].number_of_regions = num_regionsX*num_regionsY;
         args[i].thread_exit = false;
-        if (i % 2 == 0)
-            createThread(tracerThread, &args[i]);
-        else
-            createThread(tracerThreadReverse, &args[i]);
+        createThread(tracerThread, &args[i]);
     }
 
     int y = 0;
