@@ -240,17 +240,19 @@ int main(int argc, char* argv[]) {
 
     clock_t t;
     bool timing = true;
-    int num_threads = 4;
+
+	int num_threads = GetProcessorCount();
+	trace("%d", num_threads)
     current_region = 0;
 
     // code copy-paste-change hax by philster
-    tracerThreadArgsT* args2 = malloc(sizeof(tracerThreadArgsT) * num_threads);
+    /*tracerThreadArgsT* args2 = malloc(sizeof(tracerThreadArgsT) * num_threads);
     for (int i = 0; i < num_threads; i++) {
         args2[i].raytracer = raytracer;
         args2[i].regions = regions;
         args2[i].running = true;
         createThread(tracerThreadFast, &args2[i]);
-    }
+    }*/
 
     t = clock();
     tracerThreadArgsT* args = malloc(sizeof(tracerThreadArgsT) * num_threads);
@@ -261,8 +263,6 @@ int main(int argc, char* argv[]) {
         createThread(tracerThread, &args[i]);
     }
 
-
-
     int y = 0;
     while (windowIsOpen()) {
         blitPixmap(raytracer->pixmap, 0, 0);
@@ -272,7 +272,7 @@ int main(int argc, char* argv[]) {
             trace("render time: %f.2s", ((float)(clock()-t)) / CLOCKS_PER_SEC);
 
             free(args);
-            free(args2);
+            //free(args2);
         }
 
     }

@@ -5,6 +5,8 @@ typedef struct threadT threadT;
 
 typedef void (*threadFnT)(void*);
 
+int GetProcessorCount();
+
 threadT* createThread(threadFnT thread_fn, void* arg);
 void destroyThread(threadT* thread);
 

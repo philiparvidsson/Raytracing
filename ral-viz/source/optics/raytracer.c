@@ -126,7 +126,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     rayT ray;
     ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
-    int filter_size = 4;
+    int filter_size = 1;
     for (int rx = x; rx < (x+w); rx++) {
         for (int ry = y; ry < (y+h); ry++) {
             if (rx < 0 || rx >= width ) continue;

@@ -13,6 +13,16 @@ struct threadT {
     void* arg;
 };
 
+int GetProcessorCount() {
+	LPSYSTEM_INFO _info;
+	GetSystemInfo(_info);
+
+	int retval = (int)_info->dwNumberOfProcessors;
+	free(_info);
+
+	return retval;
+}
+
 static DWORD threadFunc(LPVOID arg) {
     threadT* thread = arg;
 
