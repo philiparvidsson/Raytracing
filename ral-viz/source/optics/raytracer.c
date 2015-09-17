@@ -130,7 +130,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
     int filter_size = 5;
     int num_aperture_samples = 128;
-    float fstop = 1.0f/18.0f;
+    float fstop = 1.0f/22.0f;
     float focal_dist = 1.0f;
 
     /*for (int rx = x; rx < (x + w); rx++) {
