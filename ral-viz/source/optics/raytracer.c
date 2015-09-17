@@ -129,8 +129,8 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     vec3 origin = (vec3) { 0.0f, 0.35f, 1.0f };
 
     int filter_size = 5;
-    int num_aperture_samples = 192;
-    float fstop = 1.0f/22.0f;
+    int num_aperture_samples = 128;
+    float fstop = 1.0f/18.0f;
     float focal_dist = 1.0f;
 
     /*for (int rx = x; rx < (x + w); rx++) {
@@ -158,8 +158,13 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
                 for (int i = -filter_size; i <= filter_size; i++) {
                     for (int j = -filter_size; j <= filter_size; j++) {
-                        float fx = 0.5f*(i/half_width ) / (float)filter_size;
-                        float fy = 0.5f*(j/half_height) / (float)filter_size;
+                        float fx = 0.5f*(i/half_width );
+                        float fy = 0.5f*(j/half_height);
+
+                        if (filter_size > 0) {
+                            fx /= (float)filter_size;
+                            fy /= (float)filter_size;
+                        }
 
                         rayT ray;
                         ray.origin    = (vec3) { origin.x + ax, origin.y + ay, origin.z };

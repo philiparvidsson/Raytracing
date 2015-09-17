@@ -184,15 +184,15 @@ static void renderRegion(raytracerT* raytracer, regionT region) {
     int k = 0;
     for (int i = 0; i < 64; i++) {
         for (int j = 0; j < 64; j++) {
-            if (region.x + i >= pixmapWidth(raytracer->pixmap)) continue;
-            if (region.y + j >= pixmapHeight(raytracer->pixmap)) continue;
+            if (region.x + j >= pixmapWidth(raytracer->pixmap)) continue;
+            if (region.y + i >= pixmapHeight(raytracer->pixmap)) continue;
 
-            setPixel(raytracer->pixmap, region.x + i, region.y + j, 255, 0, 255);
+            setPixel(raytracer->pixmap, region.x + j, region.y + i, 255, 255, 255);
 
             regs[k].sizeX = 1;
             regs[k].sizeY = 1;
-            regs[k].x = region.x + i;
-            regs[k].y = region.y + j;
+            regs[k].x = region.x + j;
+            regs[k].y = region.y + i;
             k++;
         }
     }
@@ -303,7 +303,7 @@ int main(int argc, char* argv[]) {
 
     surfaceT* sphere4 = createSphereSurface((vec3) { 0.0f, 0.9f, -1.2f }, 0.9f);
     sphere4->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
-                                              (vec3) { 1.0f, 0.0f, 0.0f });
+                                              (vec3) { 1.0f, 1.0f, 1.0f });
 
     surfaceT* sphere5 = createSphereSurface((vec3) { 0.5f, 0.2f, 0.45f }, 0.2f);
     sphere5->material = createPhongMaterial((vec3) { 0.2f, 0.15f, 0.0f },
