@@ -248,7 +248,7 @@ int main(int argc, char* argv[]) {
     raytracerT* raytracer = createRaytracer(720, 720);
 
     //lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
-    lightSourceT* light_source1 = createSphereLightSource((vec3) { -0.3f, 0.1f, 0.4f }, 0.05f, 1.0f);
+    lightSourceT* light_source1 = createSphereLightSource((vec3) { -2.3f, 1.9f, 0.4f }, 0.2f, 5.0f);
     lightSourceT* light_source2 = createSphereLightSource((vec3) { -0.4f, 1.6f, 0.7f }, 0.2f, 1.0f);
     lightSourceT* light_source3 = createSphereLightSource((vec3) { 0.3f, 1.8f, -0.4f }, 0.1f, 1.0f);
     lightSourceT* light_source4 = createSphereLightSource((vec3) { 0.05f, 0.1f, 0.0f }, 0.025f, 0.5f);
@@ -267,9 +267,9 @@ int main(int argc, char* argv[]) {
     //addSurface(raytracer, light_sphere3);
 
     addLightSource(raytracer, light_source1);
-    addLightSource(raytracer, light_source2);
-    addLightSource(raytracer, light_source3);
-    addLightSource(raytracer, light_source4);
+    //addLightSource(raytracer, light_source2);
+    //addLightSource(raytracer, light_source3);
+    //addLightSource(raytracer, light_source4);
 
     surfaceT* sphere1 = createSphereSurface((vec3) { 0.3f, 0.2f, 0.0f }, 0.2f);
     /*sphere1->material = createPhongMaterial((vec3) { 0.2f, 0.0f, 0.0f },
@@ -295,13 +295,14 @@ int main(int argc, char* argv[]) {
                                                 (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f),
                             mixFunc);
     surfaceT* plane = createPlaneSurface();
-    plane->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
-                                            (vec3) { 1.0f, 1.0f, 1.0f });
+    plane->material = createPhongMaterial((vec3) { 0.0f, 0.0f, 0.0f },
+                                          (vec3) { 0.0f, 0.0f, 0.0f },
+                                          (vec3) { 1.5f, 1.5f, 1.5f }, 90.0f);
 
     surfaceT* sphere3 = createSphereSurface((vec3) { 0.0f, 0.0f, 0.0f }, 8.0f);
     sphere3->material = createAmbientMaterial((vec3) { 1.0f, 1.0f, 1.0f });
 
-    surfaceT* sphere4 = createSphereSurface((vec3) { 0.0f, 0.9f, -1.2f }, 0.9f);
+    surfaceT* sphere4 = createSphereSurface((vec3) { 0.1f, 0.7f, -1.2f }, 0.7f);
     sphere4->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
                                               (vec3) { 1.0f, 1.0f, 1.0f });
 
@@ -315,13 +316,26 @@ int main(int argc, char* argv[]) {
                                             (vec3) { 0.3f, 0.9f, 0.3f },
                                             (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
 
+    surfaceT* sphere7 = createSphereSurface((vec3) { -0.6f, 0.2f, 0.75f }, 0.2f);
+    sphere7->material = createPhongMaterial((vec3) { 0.1f, 0.05f, 0.1f },
+                                            (vec3) { 0.9f, 0.7f, 0.8f },
+                                            (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
+
+    //sphere3->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere3->material, mixFunc);
+    //sphere4->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere4->material, mixFunc);
+    plane->material   = createMixMaterial(createReflectiveMaterial(1.0, 8), plane->material  , mixFunc);
+    sphere5->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere5->material, mixFunc);
+    sphere6->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere6->material, mixFunc);
+    sphere7->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere7->material, mixFunc);
+
     //sphere1->material = sphere2->material;
     addSurface(raytracer, sphere1);
     addSurface(raytracer, sphere2);
-    addSurface(raytracer, sphere3);
+    //addSurface(raytracer, sphere3);
     addSurface(raytracer, sphere4);
     addSurface(raytracer, sphere5);
     addSurface(raytracer, sphere6);
+    addSurface(raytracer, sphere7);
     addSurface(raytracer, plane);
 
     // create regions

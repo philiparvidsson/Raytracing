@@ -79,7 +79,7 @@ void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h) {
     float half_height = (height - 1) / 2.0f;
 
     rayT ray;
-    ray.origin = (vec3) { 0.0f, 0.35f, 1.0f };
+    ray.origin = (vec3) { 0.0f, 0.45f, 2.0f };
 
     for (int rx = x; rx < (x + w); rx += 2) {
         for (int ry = y; ry < (y + h); ry += 2) {
@@ -90,7 +90,7 @@ void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h) {
 
             ray.direction = (vec3) {  (rx - half_width ) / half_width,
                                      -(ry - half_height) / half_height,
-                                     -1.0f };
+                                     -2.0f };
 
             intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
@@ -126,11 +126,11 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     float half_height = (height - 1) / 2.0f;
 
 
-    vec3 origin = (vec3) { 0.0f, 0.35f, 1.0f };
+    vec3 origin = (vec3) { 0.0f, 0.45f, 2.0f };
 
-    int filter_size = 5;
-    int num_aperture_samples = 128;
-    float fstop = 1.0f/22.0f;
+    int filter_size = 2;
+    int num_aperture_samples = 24;
+    float fstop = 1.0f/44.0f;
     float focal_dist = 1.0f;
 
     /*for (int rx = x; rx < (x + w); rx++) {
@@ -170,7 +170,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
                         ray.origin    = (vec3) { origin.x + ax, origin.y + ay, origin.z };
                         ray.direction = (vec3) {  (rx - half_width ) / half_width  + fx - ax/focal_dist,
                                                  -(ry - half_height) / half_height + fy - ay/focal_dist,
-                                                 -1.0f };
+                                                 -2.0f };
                         intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
                         if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
