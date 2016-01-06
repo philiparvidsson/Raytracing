@@ -179,11 +179,11 @@ float mixFunc(materialT* material, raytracerT* raytracer, intersectionT* interse
 static void renderRegion(raytracerT* raytracer, regionT region) {
     int num_cpu = processorCount();
 
-    regionT* regs = malloc(sizeof(regionT) * 64 * 64);
+    regionT* regs = malloc(sizeof(regionT) * 32 * 32);
 
     int k = 0;
-    for (int i = 0; i < 64; i++) {
-        for (int j = 0; j < 64; j++) {
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 32; j++) {
             if (region.x + j >= pixmapWidth(raytracer->pixmap)) continue;
             if (region.y + i >= pixmapHeight(raytracer->pixmap)) continue;
 
@@ -243,9 +243,9 @@ static void renderRegion(raytracerT* raytracer, regionT region) {
 int main(int argc, char* argv[]) {
     printIntroMessage();
 
-    initGraphics("ral-viz pre-alpha", 720, 720);
+    initGraphics("ral-viz pre-alpha", 320, 320);
 
-    raytracerT* raytracer = createRaytracer(720, 720);
+    raytracerT* raytracer = createRaytracer(320, 320);
 
     //lightSourceT* light_source1 = createDirectionalLightSource((vec3) { 1.0f, 1.0f, 0.0f });
     lightSourceT* light_source1 = createSphereLightSource((vec3) { -2.3f, 1.9f, 0.4f }, 0.2f, 5.0f);
@@ -306,24 +306,25 @@ int main(int argc, char* argv[]) {
     sphere4->material = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
                                               (vec3) { 1.0f, 1.0f, 1.0f });
 
-    surfaceT* sphere5 = createSphereSurface((vec3) { 0.5f, 0.2f, 0.45f }, 0.2f);
+    surfaceT* sphere5 = createSphereSurface((vec3) { 0.5f, 0.3f, 0.45f }, 0.3f);
     sphere5->material = createPhongMaterial((vec3) { 0.2f, 0.15f, 0.0f },
                                             (vec3) { 0.9f, 0.7f, 0.3f },
                                             (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
 
-    surfaceT* sphere6 = createSphereSurface((vec3) { -0.4f, 0.1f, 0.35f }, 0.1f);
+    surfaceT* sphere6 = createSphereSurface((vec3) { -0.4f, 0.2f, 0.65f }, 0.2f);
     sphere6->material = createPhongMaterial((vec3) { 0.1f, 0.3f, 0.1f },
                                             (vec3) { 0.3f, 0.9f, 0.3f },
                                             (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
 
-    surfaceT* sphere7 = createSphereSurface((vec3) { -0.6f, 0.2f, 0.75f }, 0.2f);
-    sphere7->material = createPhongMaterial((vec3) { 0.1f, 0.05f, 0.1f },
-                                            (vec3) { 0.9f, 0.7f, 0.8f },
+    surfaceT* sphere7 = createSphereSurface((vec3) { -0.9f, 0.6f, -1.5f }, 0.6f);
+    sphere7->material = createPhongMaterial((vec3) { 0.2f, 0.1f, 0.1f },
+                                            (vec3) { 0.9f, 0.7f, 0.7f },
                                             (vec3) { 4.0f, 4.0f, 4.0f }, 90.0f);
 
     //sphere3->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere3->material, mixFunc);
     //sphere4->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere4->material, mixFunc);
-    plane->material   = createMixMaterial(createReflectiveMaterial(1.0, 8), plane->material  , mixFunc);
+    plane->material   = createDiffuseMaterial((vec3) { 0.0f, 0.0f, 0.0f },
+                                              (vec3) { 1.0f, 1.0f, 1.0f });
     sphere5->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere5->material, mixFunc);
     sphere6->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere6->material, mixFunc);
     sphere7->material = createMixMaterial(createReflectiveMaterial(1.0, 8), sphere7->material, mixFunc);
@@ -331,7 +332,7 @@ int main(int argc, char* argv[]) {
     //sphere1->material = sphere2->material;
     addSurface(raytracer, sphere1);
     addSurface(raytracer, sphere2);
-    //addSurface(raytracer, sphere3);
+    addSurface(raytracer, sphere3);
     addSurface(raytracer, sphere4);
     addSurface(raytracer, sphere5);
     addSurface(raytracer, sphere6);
@@ -340,8 +341,8 @@ int main(int argc, char* argv[]) {
 
     // create regions
     int sizeX, sizeY, width, height, num_regionsX, num_regionsY;
-    sizeX = 64;
-    sizeY = 64;
+    sizeX = 32;
+    sizeY = 32;
 
     width = pixmapWidth(raytracer->pixmap);
     height = pixmapHeight(raytracer->pixmap);
