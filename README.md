@@ -1,2 +1,2 @@
 # ral-viz
-Placeholder for RAL color visualization project.
+Simple raytracer developed over a couple of days to learn raytracing.
