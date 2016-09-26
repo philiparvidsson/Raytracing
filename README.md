@@ -13,7 +13,4 @@ I also made sure the raytracer makes use of multiple CPU cores to minimize rende
 * Recursive reflections
 * Antialiasing
 * Depth-of-field
-
 <img alt="" src="ral-viz/images/rt0.png"/>
-
-Notice effects such as color bleeding (GI), antialiasing, reflections, depth-of-field etc.
