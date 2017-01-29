@@ -1,4 +1,4 @@
-# Attempting Raytracing
+# Experimenting with Raytracing
 
 The original idea was (and still is—when I have the time!) to create a photorealistic [RAL color](https://en.wikipedia.org/wiki/RAL_colour_standard) visualizer for various objects (specifically bikes, but others as well). 
 
