@@ -17,6 +17,8 @@ The raytracer is multi-threaded and makes use of all available CPU cores to mini
 * Recursive reflections
 * Antialiasing
 * Depth-of-field
+* Phong shading model
+* Monte Carlo integration
 
 ## How does it work?
 
