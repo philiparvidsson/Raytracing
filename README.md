@@ -18,13 +18,13 @@ The raytracer is multi-threaded makes use of all available CPU cores to minimize
 * Antialiasing
 * Depth-of-field
 
-## Math
+## How does it work?
 
 <img alt="" src="images/raytrace.png"/>
 
 Raytracing is a matter of finding the point-of-intersection in 3-space (and, after that, calculating normals, light and shadow rays, reflections etc—not illustrated above!) closes to the eye. In the illustration above, we need to solve an equation for the two functions. Since we're interested in where, in space, the intersection occurs, and since we start with a ray (each pixel rendered starts with a ray being cast in that direction from the camera!), we want then solve the equation for the scalar t. This tells how far along the ray we need to travel to end up at the intersection!
 
-### Solving for t
+### Math
 
 Let o be the origin (eye) and d the direction of the ray:
 
