@@ -6,7 +6,7 @@ Starting this project, I had no prior experience with implementing raytracing, b
 
 ## Screenshot
 
-The raytracer is multi-threaded makes use of all available CPU cores to minimize rendering time since the process is immenesly computationally intensive. See screenshot below (if I remember correctly, the rendering time is about 40 hours on my dual-core [plus Hyper-Threading] Intel i7-4500U).
+The raytracer is multi-threaded and makes use of all available CPU cores to minimize rendering time since the process is immenesly computationally intensive. See screenshot below (if I remember correctly, the rendering time is about 40 hours on my dual-core [plus Hyper-Threading] Intel i7-4500U).
 
 <img alt="" src="ral-viz/images/rt0.png"/>
 
