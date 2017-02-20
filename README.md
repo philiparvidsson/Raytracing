@@ -14,7 +14,7 @@ Below is a simple [Cornell box](https://en.wikipedia.org/wiki/Cornell_box) rende
 
 <img alt="" src="ral-viz/images/rt1.png"/>
 
-**Features**:
+## Features
 
 * Global illumination
 * Color bleeding
