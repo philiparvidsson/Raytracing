@@ -19,8 +19,8 @@ Below is a simple [Cornell box](https://en.wikipedia.org/wiki/Cornell_box) rende
 * Global illumination
 * Color bleeding
 * Recursive reflections
-* Antialiasing
-* Depth-of-field
+* Antialiasing (using a box filter)
+* Depth-of-field (using a physically based [aperture](https://en.wikipedia.org/wiki/Aperture) model)
 * Phong shading model
 * Monte Carlo integration
 
