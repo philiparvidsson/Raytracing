@@ -27,7 +27,7 @@ static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, inters
             //vec_flip(&shadow_ray.direction, &shadow_ray.direction);
 
             intersectionT occlusion_intersection = findIntersection(raytracer, &shadow_ray, intersection->surface, light_ray.distance);
-        
+
             if (occlusion_intersection.t <= 0.0f) {
                 float f = vec_dot(&intersection->normal, &light_ray.direction);
 
@@ -48,10 +48,9 @@ static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, inters
     vec3 c3 = { 0 };
     rayT ray = { 0 };
 
-
     if (depth < 2) {
         ray.origin = intersection->position;
-        int num_samples = 4;
+        int num_samples = 8;
         for (int i = 0; i < num_samples; i++) {
             //vec_reflect(&intersection->ray.direction, &intersection->normal, &ray.direction);
             ray.direction = intersection->normal;
@@ -74,14 +73,16 @@ static vec3 calcMaterialColor(materialT* material, raytracerT* raytracer, inters
             }
         }
 
-        vec_scale(&c3, 1.0f / num_samples, &color);
+        vec_scale(&c3, 1.0f / num_samples, &c3);
 
-        color.x = color.x * 0.98f + c3.x * 0.02f;
-        color.y = color.y * 0.98f + c3.y * 0.02f;
-        color.z = color.z * 0.98f + c3.z * 0.02f;
+        float a = 0.6f;
+        color.x = color.x*a + c3.x*(1.0f - a);
+        color.y = color.y*a + c3.y*(1.0f - a);
+        color.z = color.z*a + c3.z*(1.0f - a);
     }
 
     depth--;
+
 
     return (color);
 }

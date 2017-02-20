@@ -90,7 +90,7 @@ void raytraceRectFast(raytracerT* raytracer, int x, int y, int w, int h) {
 
             ray.direction = (vec3) {  (rx - half_width ) / half_width,
                                      -(ry - half_height) / half_height,
-                                     -2.0f };
+                                     -1.1f };
 
             intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
@@ -131,7 +131,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
     int filter_size = 2;
     int num_aperture_samples = 24;
     float fstop = 1.0f/44.0f;
-    float focal_dist = 1.0f;
+    float focal_dist = 3.0f;
 
     /*for (int rx = x; rx < (x + w); rx++) {
         for (int ry = y; ry < (y + h); ry++) {
@@ -170,7 +170,7 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
                         ray.origin    = (vec3) { origin.x + ax, origin.y + ay, origin.z };
                         ray.direction = (vec3) {  (rx - half_width ) / half_width  + fx - ax/focal_dist,
                                                  -(ry - half_height) / half_height + fy - ay/focal_dist,
-                                                 -2.0f };
+                                                 -1.1f };
                         intersectionT intersection = findIntersection(raytracer, &ray, NULL, FLT_MAX);
 
                         if ((intersection.t < 0.01f) || (intersection.t > 10.0f)) {
@@ -186,9 +186,9 @@ void raytraceRect(raytracerT* raytracer, int x, int y, int w, int h) {
 
             vec_scale(&color, 1.0f/(num_aperture_samples*(2*filter_size+1)*(2*filter_size+1)), &color);
 
-            color.x = sqrtf(color.x);
-            color.y = sqrtf(color.y);
-            color.z = sqrtf(color.z);
+            //color.x = sqrtf(color.x);
+            //color.y = sqrtf(color.y);
+            //color.z = sqrtf(color.z);
             setPixelf(raytracer->pixmap, rx, ry, color.x, color.y, color.z);
         }
     }

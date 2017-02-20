@@ -1,6 +1,6 @@
 # Experimenting with Raytracing
 
-The original idea was (and still is—when I have the time!) to create a photorealistic [RAL color](https://en.wikipedia.org/wiki/RAL_colour_standard) visualizer for various objects (specifically bikes, but others as well). 
+The original idea was (and still is—when I have the time!) to create a photorealistic [RAL color](https://en.wikipedia.org/wiki/RAL_colour_standard) visualizer for various objects (specifically bikes, but others as well).
 
 Starting this project, I had no prior experience with implementing raytracing, but merely a concept understanding of it. Turns out the math is not too complex (e.g. rearranging and solving quadratic polynomials for sphere surfaces). Everything was learned and implemented over the course of a (pretty intense) weekend.
 
@@ -9,6 +9,10 @@ Starting this project, I had no prior experience with implementing raytracing, b
 The raytracer is multi-threaded and makes use of all available CPU cores to minimize rendering time since the process is immenesly computationally intensive. See screenshot below (if I remember correctly, the rendering time is about 40 hours on my dual-core [plus Hyper-Threading] Intel i7-4500U).
 
 <img alt="" src="ral-viz/images/rt0.png"/>
+
+Below is a simple [Cornell box](https://en.wikipedia.org/wiki/Cornell_box) render containing a few spheres to show global illumination and color bleeding effects, taking about 90 minutes to render on the same hardware; much faster since there are no recursive reflections!
+
+<img alt="" src="ral-viz/images/rt1.png"/>
 
 **Features**:
 

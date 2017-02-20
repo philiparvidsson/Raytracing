@@ -13,9 +13,8 @@ typedef enum planeSurfaceTypeT {
 } planeSurfaceTypeT;
 
 typedef struct planeSurfaceT {
-    float lol;
+    vec3 pos;
+    vec3 normal;
 } planeSurfaceT;
-
-surfaceT* createPlaneSurface(void);
 
 #endif // planesurface_h_
