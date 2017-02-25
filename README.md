@@ -36,7 +36,7 @@ Let o be the origin (eye) and d the direction of the ray:
 
 ![Eq. 1](https://latex.codecogs.com/gif.latex?%5Cvec%7Bp%7D%3D%5Cvec%7Bo%7D&plus;%5Cvec%7Bd%7D%20%5Ccdot%20t "Eq. 1")
 
-Let c and r be the center and radius of the sphere, respectively. For every point in space q where the equation holds true, q is a point on the sphere:
+Let **c** and **r** be the center and radius of the sphere, respectively. For every point in space **q** where the equation holds true, **q** is a point on the sphere:
 
 ![Eq. 2a](https://latex.codecogs.com/gif.latex?%28q_x-c_x%29%5E2&plus;%28q_y-c_y%29%5E2&plus;%28q_z-c_z%29%5E2%3Dr%5E2 "Eq. 2a")
 
