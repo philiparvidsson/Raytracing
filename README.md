@@ -52,4 +52,4 @@ Solving the equation—finding if any point on the line is also a point on the s
 
 Simplified final form with vector notation:
 
-![Eq. 4](https://latex.codecogs.com/gif.latex?%5C%5C%20i%3D%5Cvec%7Bd%7D%20%5Ccdot%20%5Cvec%7Bd%7D%20%5C%5C%20j%3D%5Cvec%7Bd%7D%20%5Ccdot%20%5Cvec%7Bo%7D-%5Cvec%7Bd%7D%20%5Ccdot%20%5Cvec%7Bc%7D%20%5C%5C%20k%3D%5Cvec%7Bo%7D%20%5Ccdot%20%5Cvec%7Bo%7D%20&plus;%20%5Cvec%7Bc%7D%20%5Ccdot%20%5Cvec%7Bc%7D-2%5Cvec%7Bo%7D%20%5Ccdot%20%5Cvec%7Bc%7D-r%5E2%20%5C%5C%20%5C%5C%20t%3D-%5Cdfrac%7Bj%7D%7Bi%7D%20%5Cpm%20%5Csqrt%7B-%5Cdfrac%7Bk%7D%7Bi%7D%20&plus;%20%5Cleft%28%5Cdfrac%7Bj%7D%7Bi%7D%5Cright%29%5E2%7D "Eq. 4")
+![Eq. 4](https://latex.codecogs.com/svg.latex?%5C%5C%20i%3D%5Cvec%7Bd%7D%20%5Ccdot%20%5Cvec%7Bd%7D%20%5C%5C%20j%3D%5Cvec%7Bd%7D%20%5Ccdot%20%5Cvec%7Bo%7D-%5Cvec%7Bd%7D%20%5Ccdot%20%5Cvec%7Bc%7D%20%5C%5C%20k%3D%5Cvec%7Bo%7D%20%5Ccdot%20%5Cvec%7Bo%7D%20&plus;%20%5Cvec%7Bc%7D%20%5Ccdot%20%5Cvec%7Bc%7D-2%5Cvec%7Bo%7D%20%5Ccdot%20%5Cvec%7Bc%7D-r%5E2%20%5C%5C%20%5C%5C%20t%3D-%5Cdfrac%7Bj%7D%7Bi%7D%20%5Cpm%20%5Csqrt%7B-%5Cdfrac%7Bk%7D%7Bi%7D%20&plus;%20%5Cleft%28%5Cdfrac%7Bj%7D%7Bi%7D%5Cright%29%5E2%7D "Eq. 4")
