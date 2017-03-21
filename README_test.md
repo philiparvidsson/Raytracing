@@ -34,22 +34,22 @@ Raytracing is a matter of finding the point-of-intersection in 3-space (and, aft
 
 Let **o** be the origin (eye) and **d** the direction of the ray:
 
-![Eq. 1](https://raw.githubusercontent.com/philiparvidsson/Raytracing/master/images/eq1.svg "Eq. 1")
+![Eq. 1](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq1.svg "Eq. 1")
 
 Let **c** and r be the center and radius of the sphere, respectively. For every point in space **q** where the equation holds true, **q** is a point on the sphere:
 
-![Eq. 2a](https://raw.githubusercontent.com/philiparvidsson/Raytracing/master/images/eq2a.svg "Eq. 2a")
+![Eq. 2a](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq2a.svg "Eq. 2a")
 
 Or, equivalently with vector notation:
 
-![Eq. 2b](https://raw.githubusercontent.com/philiparvidsson/Raytracing/master/images/eq2b.svg "Eq. 2b")
+![Eq. 2b](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq2b.svg "Eq. 2b")
 
 Solving the equation—finding if any point on the line is also a point on the sphere surface:
 
-![Eq. 3a](https://raw.githubusercontent.com/philiparvidsson/Raytracing/master/images/eq3a.svg "Eq. 3a")
+![Eq. 3a](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq3a.svg "Eq. 3a")
 
-![Eq. 3b](https://raw.githubusercontent.com/philiparvidsson/Raytracing/master/images/eq3b.svg "Eq. 3b")
+![Eq. 3b](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq3b.svg "Eq. 3b")
 
 Simplified final form with vector notation:
 
-![Eq. 4](https://raw.githubusercontent.com/philiparvidsson/Raytracing/master/images/eq4.svg "Eq. 4")
+![Eq. 4](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq4.svg "Eq. 4")
