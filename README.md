@@ -36,7 +36,7 @@ Let **o** be the origin (eye) and **d** the direction of the ray:
 
 ![Eq. 1](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq1.svg "Eq. 1")
 
-Let **c** and r be the center and radius of the sphere, respectively. For every point in space **q** where the equation holds true, **q** is a point on the sphere:
+Let **c** and r be the center and radius of the sphere, respectively. For every point in space where the equation holds true, **q** is a point on the sphere:
 
 ![Eq. 2a](https://cdn.rawgit.com/philiparvidsson/Raytracing/master/images/eq2a.svg "Eq. 2a")
 
